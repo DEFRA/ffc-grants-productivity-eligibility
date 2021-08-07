@@ -11,7 +11,7 @@
   },
   "author": "Defra",
   "contributors": [
-    "Satish Chatap https://github.com/govTechSatish"
+    "Satish Chatap <https://github.com/govTechSatish>"
   ],
   "license": "OGL-UK-3.0",
   "dependencies": {
