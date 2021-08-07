@@ -1,0 +1,77 @@
+environment: development
+name: ffc-grants-productivity-eligibility
+namespace: ffc-grants
+workstream: ffc-grants
+image: ffc-grants-productivity-eligibility
+
+labels: {}
+
+appInsights:
+  key: not-a-real-key
+
+azureIdentity:
+  clientID: not-a-real-clientID
+  resourceID: not-a-real-resourceID
+
+containerConfigMap:
+  name: ffc-grants-productivity-eligibility-config-map
+
+containerSecret:
+  name: ffc-grants-productivity-eligibility-container-secret
+  type: Opaque
+
+deployment:
+  restartPolicy: Always
+  priorityClassName: default
+  minReadySeconds: 0
+  redeployOnChange: update this field to force a change
+  runAsNonRoot: true
+  runAsUser: 30302
+  replicas: 2
+  minReplicas: 2
+  maxReplicas: 3
+  cpuThreshold: 80
+  memoryThreshold: 80
+
+container:
+  imagePullPolicy: IfNotPresent
+  requestMemory: 120Mi
+  requestCpu: 120m
+  limitMemory: 120Mi
+  limitCpu: 120m
+  readOnlyRootFilesystem: true
+  allowPrivilegeEscalation: false
+  port: 3011
+  messageQueueHost: dummy
+  projectDetailsQueueAddress: project-details
+  contactDetailsQueueAddress: contact-details
+  calculateScoreQueueAddress: calculate-score
+  desirabilityScoreSubscriptionAddress: desirability-score-subscription
+  desirabilityScoreTopicAddress: desirability-score-topic
+  desirabilitySubmittedTopicAddress: desirability-submitted
+  redisHostname: redis
+  redisPassword: redis
+  redisPort: 6379
+  redisPartition: ffc-grants-productivity-eligibility
+  notifyEmailTemplate: dummy-template
+  worksheetProtectPassword: dummy-pwd
+  worksheetProtectEnabled: false
+  sendEmailToRpa: false
+  rpaEmail: FTF@rpa.gov.uk
+  worksheetHideEmptyRows: false
+  protectiveMonitoringUrl:
+  excelUploadEnvironment: dummy
+
+livenessProbe:
+  path: /healthz
+  port: 3011
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  failureThreshold: 3
+
+readinessProbe:
+  path: /healthy
+  port: 3011
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  failureThreshold: 3

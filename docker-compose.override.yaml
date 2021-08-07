@@ -1,0 +1,29 @@
+version: '3.8'
+
+# This override file should be used when running this service in isolation
+# to provide dependencies and expose ports for local testing
+
+services:
+  ffc-grants-productivity-eligibility:
+    build:
+      target: development
+    depends_on:
+      - redis
+    image: ffc-grants-productivity-eligibility-development
+    container_name: ffc-grants-productivity-eligibility-development
+    ports:
+      - "3011:3000"
+      - "9232:9229"
+    volumes:
+      - ./app/:/home/node/app/
+      - ./package.json:/home/node/package.json
+
+  redis:
+    image: redis:4.0.14
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6381:6379"
+
+volumes:
+  redis_data:
