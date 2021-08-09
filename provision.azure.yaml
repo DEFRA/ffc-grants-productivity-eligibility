@@ -1,9 +1,0 @@
-resources:
-  queues:
-    - name: calculateScore
-    - name: eligibilityAnswers
-    - name: projectDetails
-    - name: contactDetails
-  topics:
-    - name: score
-    - name: desireSubmit
