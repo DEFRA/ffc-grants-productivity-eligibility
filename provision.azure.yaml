@@ -5,5 +5,5 @@ resources:
     - name: projectDetails
     - name: contactDetails
   topics:
-    - name: desirabilityScore
+    - name: score
     - name: desireSubmit
