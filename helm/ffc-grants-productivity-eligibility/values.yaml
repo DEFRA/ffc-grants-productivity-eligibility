@@ -46,9 +46,9 @@ container:
   projectDetailsQueueAddress: project-details
   contactDetailsQueueAddress: contact-details
   calculateScoreQueueAddress: calculate-score
-  desirabilityScoreSubscriptionAddress: desirability-score-subscription
-  desirabilityScoreTopicAddress: desirability-score-topic
-  desirabilitySubmittedTopicAddress: desirability-submitted
+  desirabilityScoreSubscriptionAddress: score-subscription
+  desirabilityScoreTopicAddress: score-topic
+  desirabilitySubmittedTopicAddress: submit
   redisHostname: redis
   redisPassword: redis
   redisPort: 6379
