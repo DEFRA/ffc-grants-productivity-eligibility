@@ -35,7 +35,7 @@ module.exports = {
     type: 'topic',
     ...sharedConfig
   },
-  desirabilitySubmittedMsgType: `${msgTypePrefix}.desirability.notification`,
-  calculateScoreMsgType: `${msgTypePrefix}.desirability.calculate`,
+  desirabilitySubmittedMsgType: `${msgTypePrefix}.productivity.desirability.notification`,
+  calculateScoreMsgType: `${msgTypePrefix}.productivity.desirability.calculate`,
   msgSrc: 'ffc-grants-productivity-eligibility'
 }
