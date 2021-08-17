@@ -37,5 +37,5 @@ module.exports = {
   },
   desirabilitySubmittedMsgType: `${msgTypePrefix}.productivity.desirability.notification`,
   calculateScoreMsgType: `${msgTypePrefix}.productivity.desirability.calculate`,
-  msgSrc: 'ffc-grants-productivity-eligibility'
+  msgSrc: 'ffc-grants-prod-eligibility'
 }

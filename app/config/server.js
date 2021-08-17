@@ -5,7 +5,7 @@ const schema = Joi.object({
   protectiveMonitoringUrl: Joi.string().allow(''),
   appInsights: {
     key: Joi.string(),
-    role: Joi.string().default('ffc-grants-productivity-eligibility')
+    role: Joi.string().default('ffc-grants-prod-eligibility')
   }
 })
 

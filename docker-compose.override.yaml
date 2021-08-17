@@ -4,13 +4,13 @@ version: '3.8'
 # to provide dependencies and expose ports for local testing
 
 services:
-  ffc-grants-productivity-eligibility:
+  ffc-grants-prod-eligibility:
     build:
       target: development
     depends_on:
       - redis
-    image: ffc-grants-productivity-eligibility-development
-    container_name: ffc-grants-productivity-eligibility-development
+    image: ffc-grants-prod-eligibility-development
+    container_name: ffc-grants-prod-eligibility-development
     ports:
       - "3011:3000"
       - "9232:9229"

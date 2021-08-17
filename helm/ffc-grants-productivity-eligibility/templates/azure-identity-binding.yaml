@@ -1,3 +1,3 @@
-{{- include "ffc-helm-library.azure-identity-binding" (list . "ffc-grants-productivity-eligibility.azure-identity-binding") -}}
-{{- define "ffc-grants-productivity-eligibility.azure-identity-binding" -}}
+{{- include "ffc-helm-library.azure-identity-binding" (list . "ffc-grants-prod-eligibility.azure-identity-binding") -}}
+{{- define "ffc-grants-prod-eligibility.azure-identity-binding" -}}
 {{- end -}}

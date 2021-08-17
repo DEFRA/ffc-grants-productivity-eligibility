@@ -6,4 +6,4 @@ resources:
     - name: contactDetails
   topics:
     - name: Score
-    - name: desireSubmit
+    - name: Submit

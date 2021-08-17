@@ -76,6 +76,18 @@
     "Ebb and flow",
     "Software and sensors to optimise water application"
   ],
+  "ProductivitySourceCurrent": [
+    "Irrigation pump(s) and controls",
+    "Electricity installation for pump house",
+    "Ebb and flow",
+    "Software and sensors to optimise water application"
+  ],
+  "ProductivitySourcePlanned": [
+    "Irrigation pump(s) and controls",
+    "Electricity installation for pump house",
+    "Ebb and flow",
+    "Software and sensors to optimise water application"
+  ],
   "projectStarted": "No",
   "payRemainingCosts": "Yes",
   "score-calculated": true,

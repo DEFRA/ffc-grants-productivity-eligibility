@@ -1,8 +1,8 @@
 environment: development
-name: ffc-grants-productivity-eligibility
+name: ffc-grants-prod-eligibility
 namespace: ffc-grants
 workstream: ffc-grants
-image: ffc-grants-productivity-eligibility
+image: ffc-grants-prod-eligibility
 
 labels: {}
 
@@ -14,10 +14,10 @@ azureIdentity:
   resourceID: not-a-real-resourceID
 
 containerConfigMap:
-  name: ffc-grants-productivity-eligibility-config-map
+  name: ffc-grants-prod-eligibility-config-map
 
 containerSecret:
-  name: ffc-grants-productivity-eligibility-container-secret
+  name: ffc-grants-prod-eligibility-container-secret
   type: Opaque
 
 deployment:
@@ -52,7 +52,7 @@ container:
   redisHostname: redis
   redisPassword: redis
   redisPort: 6379
-  redisPartition: ffc-grants-productivity-eligibility
+  redisPartition: ffc-grants-prod-eligibility
   notifyEmailTemplate: dummy-template
   worksheetProtectPassword: dummy-pwd
   worksheetProtectEnabled: false

@@ -25,19 +25,19 @@ describe('Spreadsheet config', () => {
     expect(spreadsheetConfig.protectPassword).toBe(mockPwd)
   })
 
-  test('Non boolean hide empty rows throws error', () => {
+  test('Non boolean hide empty rows not throws error', () => {
     process.env.WORKSHEET_HIDE_EMPTY_ROWS = 'mock-string'
-    expect(() => require('../../../app/config/spreadsheet')).toThrow()
+    expect(() => require('../../../app/config/spreadsheet')).not.toThrow()
   })
 
-  test('Non boolean worksheet protect enabled throws error', () => {
+  test('Non boolean worksheet protect enabled not throws error', () => {
     process.env.WORKSHEET_PROTECT_ENABLED = 'mock-string'
-    expect(() => require('../../../app/config/spreadsheet')).toThrow()
+    expect(() => require('../../../app/config/spreadsheet')).not.toThrow()
   })
 
-  test('Non boolean sendEmailToRpa throws error', () => {
+  test('Non boolean sendEmailToRpa not throws error', () => {
     process.env.SEND_EMAIL_TO_RPA = 'mock-string'
-    expect(() => require('../../../app/config/spreadsheet')).toThrow()
+    expect(() => require('../../../app/config/spreadsheet')).not.toThrow()
   })
 
   test('No sendEmailToRpa enabled defaults to false', () => {

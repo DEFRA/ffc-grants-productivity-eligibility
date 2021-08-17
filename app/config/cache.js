@@ -1,5 +1,4 @@
 const defaultExpiresIn = 3600 * 1000 // 1 hour
-console.log(process.env.REDIS_PORT, 'Port')
 module.exports = {
   useRedis: process.env.NODE_ENV !== 'test',
   desirabilityScoresSegment: {

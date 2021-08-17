@@ -1,8 +1,8 @@
 {
-  "name": "ffc-grants-productivity-eligibility",
+  "name": "ffc-grants-prod-eligibility",
   "version": "1.00.0",
   "description": "FFC Grants productivity eligibility and desirability microservice",
-  "homepage": "https://github.com/DEFRA/ffc-grants-productivity-eligibility",
+  "homepage": "https://github.com/DEFRA/ffc-grants-prod-eligibility",
   "main": "app/index.js",
   "scripts": {
     "test": "jest --runInBand",

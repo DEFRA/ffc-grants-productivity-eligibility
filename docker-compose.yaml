@@ -1,12 +1,12 @@
 version: '3.8'
 
 services:
-  ffc-grants-productivity-eligibility:
+  ffc-grants-prod-eligibility:
     build:
       context: .
       target: production
-    image: ffc-grants-productivity-eligibility
-    container_name: ffc-grants-productivity-eligibility
+    image: ffc-grants-prod-eligibility
+    container_name: ffc-grants-prod-eligibility
     environment:
       SERVICE_BUS_HOST: ${SERVICE_BUS_HOST:-notset}
       SERVICE_BUS_PASSWORD: ${SERVICE_BUS_PASSWORD:-notset}
@@ -19,9 +19,9 @@ services:
       DESIRABILITY_SUBMITTED_TOPIC_ADDRESS: ${DESIRABILITY_SUBMITTED_TOPIC_ADDRESS:-notset}
       REDIS_HOSTNAME: redis
       REDIS_PORT: 6379
-      REDIS_PARTITION: ffc-grants-productivity-eligibility
+      REDIS_PARTITION: ffc-grants-prod-eligibility
       REDIS_PASSWORD: ""
-      APPINSIGHTS_CLOUDROLE: ffc-grants-productivity-eligibility
+      APPINSIGHTS_CLOUDROLE: ffc-grants-prod-eligibility
       APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY:-notset}
       WORKSHEET_HIDE_EMPTY_ROWS: ${WORKSHEET_HIDE_EMPTY_ROWS:-false}
       WORKSHEET_PROTECT_ENABLED: ${WORKSHEET_PROTECT_ENABLED:-false}

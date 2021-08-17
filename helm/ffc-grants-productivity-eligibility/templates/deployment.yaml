@@ -1,8 +1,8 @@
-{{- include "ffc-helm-library.deployment" (list . "ffc-grants-productivity-eligibility.deployment") -}}
-{{- define "ffc-grants-productivity-eligibility.deployment" -}}
+{{- include "ffc-helm-library.deployment" (list . "ffc-grants-prod-eligibility.deployment") -}}
+{{- define "ffc-grants-prod-eligibility.deployment" -}}
 spec:
   template:
     spec:
       containers:
-      - {{ include "ffc-helm-library.container" (list . "ffc-grants-productivity-eligibility.container") }}
+      - {{ include "ffc-helm-library.container" (list . "ffc-grants-prod-eligibility.container") }}
 {{- end -}}

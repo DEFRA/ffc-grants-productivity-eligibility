@@ -1,6 +1,6 @@
 apiVersion: v2
 description: FFC Grants eligibilitya and desirability microservice
-name: ffc-grants-productivity-eligibility
+name: ffc-grants-prod-eligibility
 # this version is automatically updated in the build pipline
 version: 1.0.0
 dependencies:
