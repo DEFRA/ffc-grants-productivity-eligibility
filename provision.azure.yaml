@@ -1,9 +1,9 @@
 resources:
   queues:
-    - name: calculateScore
-    - name: eligibilityAnswers
+    - name: calccore
+    - name: eligAnswers
     - name: projectDetails
     - name: contactDetails
   topics:
-    - name: desirabilityScore
+    - name: Score
     - name: desireSubmit
