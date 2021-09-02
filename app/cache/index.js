@@ -10,5 +10,11 @@ module.exports = {
   },
   setDesirabilityScore: (key, value) => desirabilityScoreCache.set(key, value),
   getDesirabilityScore: key => desirabilityScoreCache.get(key),
-  removeDesirabilityScore: key => desirabilityScoreCache.drop(key)
+  removeDesirabilityScore: key => {
+    try {
+      if (desirabilityScoreCache.get(key)) desirabilityScoreCache.drop(key)
+    } catch (e) {
+      console.log(e, 'key not found.')
+    }
+  }
 }

@@ -6,14 +6,14 @@
   "desirability": {
     "questions": [
       {
-        "key": "Q14",
+        "key": "projectSubject",
         "answers": [
           {
-            "key": "Q14",
+            "key": "projectSubject",
             "title": "The project will:",
             "input": [
               {
-                "key": "Q14-A4",
+                "key": "projectSubject-A4",
                 "value": "Increase irrigation"
               }
             ]
@@ -26,10 +26,10 @@
         }
       },
       {
-        "key": "Q16",
+        "key": "projectImpact",
         "answers": [
           {
-            "key": "Q16a",
+            "key": "projectImpacta",
             "title": "How much land is currently irrigated per year?",
             "input": [
               {
@@ -39,7 +39,7 @@
             ]
           },
           {
-            "key": "Q16b",
+            "key": "projectImpactb",
             "title": "How much land will be irrigated after the project?",
             "input": [
               {
@@ -56,20 +56,20 @@
         }
       },
       {
-        "key": "Q17",
+        "key": "dataAnalytics",
         "answers": [
           {
-            "key": "Q17a",
+            "key": "dataAnalyticsa",
             "title": "Where does your current irrigation water come from?",
             "input": [
               {
-                "key": "Q17a-A6",
+                "key": "dataAnalyticsa-A6",
                 "value": "Not currently irrigating"
               }
             ]
           },
           {
-            "key": "Q17b",
+            "key": "dataAnalyticsb",
             "title": "Where will your irrigation water come from?",
             "input": [
               {
@@ -85,24 +85,15 @@
         }
       },
       {
-        "key": "Q18",
+        "key": "energySource",
         "answers": [
           {
-            "key": "Q18a",
+            "key": "energySource",
             "title": "What systems are currently used to irrigate?",
             "input": [
               {
-                "key": "Q18a-A8",
+                "key": "energySourcea-A1",
                 "value": "Not currently irrigating"
-              }
-            ]
-          },
-          {
-            "key": "Q18b",
-            "title": "What systems will be used to irrigate?",
-            "input": [
-              {
-                "value": "Ebb and flood or capillary bed"
               }
             ]
           }
@@ -114,18 +105,18 @@
         }
       },
       {
-        "key": "Q19",
+        "key": "agriculturalSector",
         "answers": [
           {
-            "key": "Q19",
+            "key": "agriculturalSector",
             "title": "How will the project improve productivity?",
             "input": [
               {
-                "key": "Q19-A5",
+                "key": "agriculturalSector-A1",
                 "value": "Maintain productivity"
               },
               {
-                "key": "Q19-A3",
+                "key": "agriculturalSector-A2",
                 "value": "Increased yield per hectare"
               }
             ]
@@ -134,26 +125,6 @@
         "rating": {
           "score": 0.5,
           "band": "Weak",
-          "importance": null
-        }
-      },
-      {
-        "key": "Q20",
-        "answers": [
-          {
-            "key": "Q20",
-            "title": "Will water be supplied to other farms?",
-            "input": [
-              {
-                "key": "Q20-A1",
-                "value": "Yes"
-              }
-            ]
-          }
-        ],
-        "rating": {
-          "score": 4,
-          "band": "Strong",
           "importance": null
         }
       }

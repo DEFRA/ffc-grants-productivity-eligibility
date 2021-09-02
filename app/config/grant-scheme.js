@@ -1,4 +1,7 @@
-module.exports = {
+module.exports = [{
   key: 'PROD01',
-  name: 'Productivity Management'
-}
+  name: 'Prod Grant Slurry'
+}, {
+  key: 'PROD02',
+  name: 'Prod Grant Robotics'
+}]
