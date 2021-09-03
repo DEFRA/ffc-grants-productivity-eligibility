@@ -21,7 +21,7 @@
   ],
   "dataAnalytics": [{
     "key": "robotics-data-analytics",
-    "title": "robotics-data-analytics",
+    "title": "Robotics Data Analytics",
     "answers":
     {
       "robotics-data-analytics-A1": "Yes, we have the technology already",
@@ -32,7 +32,7 @@
   "energySource": [
     {
       "key": "robotics-energy-source",
-      "title": "robotics-energy-source",
+      "title": "Robotics Energy Source",
       "answers": {
         "robotics-energy-source-A1": "Mains electricity",
         "robotics-energy-source-A2": "Renewable electricity generated on the farm",
@@ -44,7 +44,7 @@
   "agriculturalSector": [
     {
       "key": "robotics-agricultural-sector",
-      "title": "robotics-agricultural-sector",
+      "title": "Robotics Agricultural Sector",
       "answers": {
         "robotics-agricultural-sector-A1": "Horticulture",
         "robotics-agricultural-sector-A2": "Arable",
