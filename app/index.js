@@ -10,7 +10,6 @@ const init = async () => {
   receivers.startContactDetailsReceiver(processSubmissionAction)
   receivers.startDesirabilityScoreReceiver(desirabilityScoreAction)
   cache.initialise(server)
-
   require('./services/app-insights').setup()
   await server.start()
   console.log('Server running on %s', server.info.uri)

@@ -33,6 +33,7 @@ function getDesirabilityDetails (questionKey, userInput) {
 }
 
 function desirability (userInput) {
+  console.log(userInput, 'userinput')
   const key = userInput.projectSubject === 'Slurry acidification' ? 'PROD01' : 'PROD02'
   const grantScheme = grantSchemeConfig.filter(g => g.key === key)[0]
   const answeredQuestions = []

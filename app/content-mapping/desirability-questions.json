@@ -55,12 +55,12 @@
   ],
   "roboticProjectImpacts": [
     {
-      "key": "robotics-project-impact",
+      "key": "robotics-technology",
       "title": "Robotics Project Impact",
       "answers": {
-        "robotics-project-impact-A1": "Yes, we’re using it now",
-        "robotics-project-impact-A2": "Yes, as a pilot, demonstration or trial",
-        "robotics-project-impact-A3": "No, we haven’t used it yet" 
+        "robotics-technology-A1": "Yes, we’re using it now",
+        "robotics-technology-A2": "Yes, as a pilot, demonstration or trial",
+        "robotics-technology-A3": "No, we haven’t used it yet" 
       }
     }
   ]

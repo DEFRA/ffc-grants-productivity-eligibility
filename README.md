@@ -45,7 +45,7 @@ overridden by build and release pipelines.
 | APPINSIGHTS_CLOUDROLE                     | Role used for filtering metrics           | no        |                    |                             | Set to `ffc-grants-prod-eligibility` in docker compose files                               |
 | APPINSIGHTS_INSTRUMENTATIONKEY            | Key for application insight               | no        |                    |                             | App insights only enabled if key is present. Note: Silently fails for invalid key |
 | NODE_ENV                                  | Node environment                          | no        | development        | development,test,production |                                                                                   |
-| PORT                                      | Port number                               | no        | 3011               |                             |                                                                                   |
+| PORT                                      | Port number                               | no        | 3000               |                             |                                                                                   |
 | REDIS_HOSTNAME                            | Redis host                                | no        | localhost          |                             |                                                                                   |
 | REDIS_PORT                                | Redis port                                | no        | 6382               |                             |                                                                                   |
 | SESSION_CACHE_TTL                         | Redis session timeout                     | no        | 30                 |                             |                                                                                   |
@@ -148,7 +148,7 @@ Alternatively, a local port may be forwarded to the pod:
 
 ```bash
 # Forward local port to the Kubernetes deployment
-kubectl port-forward --namespace=ffc-grants deployment/ffc-grants-prod-eligibility 3011:3011
+kubectl port-forward --namespace=ffc-grants deployment/ffc-grants-prod-eligibility 3000:3000
 ```
 
 Once the port is forwarded or an ingress controller is installed, the service
