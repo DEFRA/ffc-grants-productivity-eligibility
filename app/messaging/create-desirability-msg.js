@@ -3,9 +3,6 @@ const { desirabilityQuestions: questionContent } = require('../content-mapping')
 const desirabilityQuestions = ['projectSubject', 'projectImpacts']
 const desirabilityRoboticsQuestions = ['projectSubject', 'dataAnalytics', 'energySource', 'agriculturalSector', 'roboticProjectImpacts']
 function getUserAnswer (answers, userInput) {
-  console.log('get answer User Input', userInput)
-  console.log('get answer Answers', answers)
-
   if (answers) {
     return [userInput].flat().map(answer =>
       ({ key: Object.keys(answers).find(key => answers[key] === answer), value: answer }))
@@ -15,7 +12,6 @@ function getUserAnswer (answers, userInput) {
 }
 
 function getDesirabilityDetails (questionKey, userInput) {
-  console.log('questionKey', questionKey)
   const content = questionContent[questionKey]
   return {
     key: content[0].key,
@@ -33,7 +29,6 @@ function getDesirabilityDetails (questionKey, userInput) {
 }
 
 function desirability (userInput) {
-  console.log(userInput, 'userinput')
   const key = userInput.projectSubject === 'Slurry acidification' ? 'PROD01' : 'PROD02'
   const validKeys = key === 'PROD01' ? desirabilityQuestions : desirabilityRoboticsQuestions
   const grantScheme = grantSchemeConfig.filter(g => g.key === key)[0]
