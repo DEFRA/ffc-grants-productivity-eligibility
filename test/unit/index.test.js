@@ -6,9 +6,9 @@ jest.mock('../../app/messaging/desirability-score')
 const { setup } = require('../../app/services/app-insights')
 jest.mock('../../app/services/app-insights')
 const cache = require('../../app/config/cache')
-cache.initialise = jest.fn((any) => { })
+cache.initialise = jest.fn((any) => null)
 const server = require('../../app/server')
-server.start = jest.fn(async () => { })
+server.start = jest.fn(async () => null)
 const receivers = require('../../app/messaging/receivers')
 const mockPassword = 'mock-pwd'
 jest.mock('../../app/config/spreadsheet', () => ({
@@ -17,9 +17,9 @@ jest.mock('../../app/config/spreadsheet', () => ({
   sendEmailToRpa: true,
   protectPassword: mockPassword
 }))
-receivers.startProjectDetailsReceiver = jest.fn((a) => {})
-receivers.startContactDetailsReceiver = jest.fn((b) => {})
-receivers.startDesirabilityScoreReceiver = jest.fn((c) => {})
+receivers.startProjectDetailsReceiver = jest.fn((a) => null)
+receivers.startContactDetailsReceiver = jest.fn((b) => null)
+receivers.startDesirabilityScoreReceiver = jest.fn((c) => null)
 const indexInit = require('../../app/index')
 
 afterEach(() => {

@@ -9,9 +9,9 @@ jest.mock('../../../app/cache')
 jest.mock('../../../app/services/app-insights')
 const desirabilityScore = require('../../../app/messaging/desirability-score')
 const cache = require('../../../app/cache')
-cache.setDesirabilityScore = jest.fn(async (_correlationId, _desirabilityScoreMsg) => {})
+cache.setDesirabilityScore = jest.fn(async (_correlationId, _desirabilityScoreMsg) => { return null })
 const appInsights = require('../../../app/services/app-insights')
-appInsights.logException = jest.fn((_err, _sessionId) => {})
+appInsights.logException = jest.fn((_err, _sessionId) => { return null })
 const desirabilityScoreReceiver = {
   completeMessage: jest.fn(async (_message) => { return null }),
   abandonMessage: jest.fn(async (_message) => { return null })

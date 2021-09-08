@@ -5,14 +5,13 @@ const appInsights = require('../services/app-insights')
 module.exports = async function (msg, projectDetailsReceiver) {
   try {
     const { body: desirabilityAnswers, correlationId } = msg
-    console.log(desirabilityAnswers)
 
     // Remove any previous cache entries with the given correlationId
     // For simplicity we will recalculate every time
     await cache.removeDesirabilityScore(correlationId)
 
     const desirabilityMsg = createMsg(desirabilityAnswers)
-    console.log(JSON.stringify(desirabilityMsg, null, 2))
+    console.log('desirabilityMsg', JSON.stringify(desirabilityMsg, null, 2))
     await sendCalculateScore(desirabilityMsg, correlationId)
 
     await projectDetailsReceiver.completeMessage(msg)
