@@ -177,7 +177,7 @@ function getScoreChance (rating) {
 }
 
 function getEmailDetails (submission, desirabilityScore, notifyTemplate, agentApplying, rpaEmail) {
-  const email = agentApplying ? submission.agentDetails.email : submission.farmerDetails.email
+  const email = agentApplying ? submission.agentDetails.email : submission.farmerDetails.emailAddress
   return {
     notifyTemplate: emailConfig.notifyTemplate,
     emailAddress: rpaEmail || email,
@@ -187,44 +187,33 @@ function getEmailDetails (submission, desirabilityScore, notifyTemplate, agentAp
       referenceNumber: submission.confirmationId,
       overallRating: desirabilityScore.desirability.overallRating.band,
       scoreChance: getScoreChance(desirabilityScore.desirability.overallRating.band),
-      crops: submission.farmingType,
+      projectSubject: submission.projectSubject,
       legalStatus: submission.legalStatus,
       location: `England ${submission.projectPostcode}`,
-      landOwnership: submission.landOwnership,
-      tenancyAgreement: submission.tenancyLength ?? 'N/A',
-      infrastructureEquipment: submission.projectInfrastucture.join(', '),
-      irrigationEquipment: submission.projectEquipment.join(', '),
-      technology: submission.projectTechnology.join(', '),
-      itemsCost: String(submission.projectCost),
-      potentialFunding: submission.calculatedGrant,
-      remainingCost: submission.remainingCost,
-      projectStarted: submission.projectStarted,
       planningPermission: submission.planningPermission,
-      abstractionLicence: submission.abstractionLicence,
-      projectName: submission.businessDetails.projectName,
-      projectDetails: submission.project.join(', '),
-      projectDetailsScore: getQuestionScoreBand(desirabilityScore.desirability.questions, 'projectSubject'),
-      irrigatedCrops: submission.irrigatedCrops,
-      irrigatedLandCurrent: submission.irrigatedLandCurrent,
-      irrigatedLandTarget: submission.irrigatedLandTarget,
-      projectImpact: getQuestionScoreBand(desirabilityScore.desirability.questions, 'projectImpact'),
-      ProductivitySourceCurrent: submission.ProductivitySourceCurrent.join(', '),
-      ProductivitySourcePlanned: submission.ProductivitySourcePlanned.join(', '),
-      dataAnalytics: getQuestionScoreBand(desirabilityScore.desirability.questions, 'dataAnalytics'),
-      irrigationCurrent: submission.irrigationCurrent.join(', '),
-      irrigationPlanned: submission.irrigationPlanned.join(', '),
-      energySource: getQuestionScoreBand(desirabilityScore.desirability.questions, 'energySource'),
-      productivity: submission.productivity.join(', '),
-      agriculturalSector: getQuestionScoreBand(desirabilityScore.desirability.questions, 'agriculturalSector'),
+      projectStart: submission.projectStart,
+      tenancy: submission.tenancy,
+      tenancyLength: submission.tenancyLength ?? 'N/A',
+      projectItems: submission.projectItems,
+      acidificationInfrastructure: submission.acidificationInfrastructure,
+      slurryApplication: submission.slurryApplication,
+      projectCost: Number(submission.projectCost).toLocaleString('en-US', { style: 'currency', currency: 'GBP' }),
+      potentialFunding: Number(submission.calculatedGrant).toLocaleString('en-US', { style: 'currency', currency: 'GBP' }),
+      remainingCost: Number(submission.remainingCost).toLocaleString('en-US', { style: 'currency', currency: 'GBP' }),
       sssi: submission.sSSI,
+      slurryCurrentlyTreated: submission.slurryCurrentlyTreated ?? '0',
+      slurryToBeTreated: submission.slurryToBeTreated,
+      projectImpacts: submission.projectImpacts,
+      projectName: submission.businessDetails.projectName,
       businessName: submission.businessDetails.businessName,
       farmerName: submission.farmerDetails.firstName,
       farmerSurname: submission.farmerDetails.lastName,
+      farmerEmail: submission.farmerDetails.emailAddress,
       agentName: submission.agentDetails?.firstName ?? 'N/A',
       agentSurname: submission.agentDetails?.lastName ?? ' ',
-      agentBusinessName: submission.agentDetails?.businessName ?? 'N/A',
-      farmerEmail: submission.farmerDetails.email,
       agentEmail: submission.agentDetails?.email ?? 'N/A',
+
+      // projectImpactsScore: getQuestionScoreBand(desirabilityScore.desirability.questions, 'project-impacts'),
       contactConsent: submission.consentOptional ? 'Yes' : 'No',
       scoreDate: new Date().toLocaleDateString('en-GB')
 
@@ -233,14 +222,10 @@ function getEmailDetails (submission, desirabilityScore, notifyTemplate, agentAp
 }
 
 function getAgentEmailDetails (submission, desirabilityScore) {
-  if (submission.applying === 'Agent') {
-    return getEmailDetails(submission, desirabilityScore, emailConfig.notifyTemplate, true, false)
-  }
-
-  return null
+  return getEmailDetails(submission, desirabilityScore, emailConfig.notifyTemplate, true, false)
 }
 
-function getApplicantEmailDetails (submission, desirabilityScore) {
+function getApplicantEmailDetails(submission, desirabilityScore) {
   return getEmailDetails(submission, desirabilityScore, emailConfig.notifyTemplate, false, false)
 }
 
@@ -251,8 +236,8 @@ function getRPAEmailDetails (submission, desirabilityScore) {
 module.exports = function (submission, desirabilityScore) {
   return {
     applicantEmail: getApplicantEmailDetails(submission, desirabilityScore),
-    agentEmail: getAgentEmailDetails(submission, desirabilityScore),
-    rpaEmail: spreadsheetConfig.sendEmailToRpa ? getRPAEmailDetails(submission, desirabilityScore) : '',
-    spreadsheet: getSpreadsheetDetails(submission, desirabilityScore)
+    agentEmail: submission.applying === 'Agent' ? getAgentEmailDetails(submission, desirabilityScore) : '',
+    rpaEmail: spreadsheetConfig.sendEmailToRpa ? getRPAEmailDetails(submission, desirabilityScore) : ''
+    //spreadsheet: getSpreadsheetDetails(submission, desirabilityScore)
   }
 }

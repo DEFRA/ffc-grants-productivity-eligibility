@@ -8,7 +8,7 @@ module.exports = async function (msg, desirabilityScoreReceiver) {
     await cache.setDesirabilityScore(correlationId, desirabilityScoreMsg)
     await desirabilityScoreReceiver.completeMessage(msg)
   } catch (err) {
-    console.error('Unable to process message')
+    console.error('Unable to process desirability score message')
     console.error(err)
     appInsights.logException(err, msg?.correlationId)
     await desirabilityScoreReceiver.abandonMessage(msg)
