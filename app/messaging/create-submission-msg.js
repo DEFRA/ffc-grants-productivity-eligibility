@@ -176,14 +176,14 @@ function getScoreChance (rating) {
   }
 }
 
-function getEmailDetails (submission, desirabilityScore, notifyTemplate, agentApplying, rpaEmail) {
-  const email = agentApplying ? submission.agentDetails.email : submission.farmerDetails.emailAddress
+function getEmailDetails (submission, desirabilityScore, rpaEmail) {
+  const email = submission.applying === 'Agent' ? submission.agentDetails.email : submission.farmerDetails.emailAddress
   return {
     notifyTemplate: emailConfig.notifyTemplate,
     emailAddress: rpaEmail || email,
     details: {
-      firstName: agentApplying ? submission.agentDetails.firstName : submission.farmerDetails.firstName,
-      lastName: agentApplying ? submission.agentDetails.lastName : submission.farmerDetails.lastName,
+      firstName: submission.applying === 'Agent' ? submission.agentDetails.firstName : submission.farmerDetails.firstName,
+      lastName: submission.applying === 'Agent' ? submission.agentDetails.lastName : submission.farmerDetails.lastName,
       referenceNumber: submission.confirmationId,
       overallRating: desirabilityScore.desirability.overallRating.band,
       scoreChance: getScoreChance(desirabilityScore.desirability.overallRating.band),
@@ -221,23 +221,11 @@ function getEmailDetails (submission, desirabilityScore, notifyTemplate, agentAp
   }
 }
 
-function getAgentEmailDetails (submission, desirabilityScore) {
-  return getEmailDetails(submission, desirabilityScore, emailConfig.notifyTemplate, true, false)
-}
-
-function getApplicantEmailDetails(submission, desirabilityScore) {
-  return getEmailDetails(submission, desirabilityScore, emailConfig.notifyTemplate, false, false)
-}
-
-function getRPAEmailDetails (submission, desirabilityScore) {
-  return getEmailDetails(submission, desirabilityScore, emailConfig.notifyTemplate, false, spreadsheetConfig.rpaEmail)
-}
-
 module.exports = function (submission, desirabilityScore) {
   return {
-    applicantEmail: getApplicantEmailDetails(submission, desirabilityScore),
-    agentEmail: submission.applying === 'Agent' ? getAgentEmailDetails(submission, desirabilityScore) : '',
-    rpaEmail: spreadsheetConfig.sendEmailToRpa ? getRPAEmailDetails(submission, desirabilityScore) : ''
+    applicantEmail: getEmailDetails(submission, desirabilityScore, false),
+    agentEmail: submission.applying === 'Agent' ? getEmailDetails(submission, desirabilityScore, false) : '',
+    rpaEmail: spreadsheetConfig.sendEmailToRpa ? getEmailDetails(submission, desirabilityScore, spreadsheetConfig.rpaEmail) : ''
     //spreadsheet: getSpreadsheetDetails(submission, desirabilityScore)
   }
 }
