@@ -15,7 +15,7 @@ module.exports = async function (msg, contactDetailsReceiver) {
 
     await contactDetailsReceiver.completeMessage(msg)
   } catch (err) {
-    console.error(`[ERROR][UNABLE TO PROCESS CONTACT DETAILS RECEIVER MESSAGE][${ERR}]`)
+    console.error(`[ERROR][UNABLE TO PROCESS CONTACT DETAILS RECEIVER MESSAGE][${err}]`)
     appInsights.logException(err, msg?.correlationId)
     await contactDetailsReceiver.abandonMessage(msg)
   }
