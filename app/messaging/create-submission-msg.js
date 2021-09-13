@@ -165,6 +165,10 @@ function getSpreadsheetDetails (submission, desirabilityScore) {
   }
 }
 
+function getCurrencyFormat(amount) {
+  return Number(amount).toLocaleString('en-US', { minimumFractionDigits: 0, style: 'currency', currency: 'GBP' })
+}
+
 function getScoreChance (rating) {
   switch (rating.toLowerCase()) {
     case 'strong':
@@ -188,42 +192,59 @@ function getEmailDetails (submission, desirabilityScore, rpaEmail) {
       overallRating: desirabilityScore.desirability.overallRating.band,
       scoreChance: getScoreChance(desirabilityScore.desirability.overallRating.band),
       projectSubject: submission.projectSubject,
+      isSlurry: submission.projectSubject === 'Slurry acidification' ? 'Yes' : 'No',
+      isRobotics: submission.projectSubject === 'Robotics and innovation' ? 'Yes' : 'No',
       legalStatus: submission.legalStatus,
       location: `England ${submission.projectPostcode}`,
       planningPermission: submission.planningPermission,
       projectStart: submission.projectStart,
       tenancy: submission.tenancy,
-      tenancyLength: submission.tenancyLength ?? 'N/A',
+      tenancyLength: submission.tenancyLength ?? 'n/a',
       projectItems: submission.projectItems,
-      acidificationInfrastructure: submission.acidificationInfrastructure,
-      slurryApplication: submission.slurryApplication,
-      projectCost: Number(submission.projectCost).toLocaleString('en-US', { style: 'currency', currency: 'GBP' }),
-      potentialFunding: Number(submission.calculatedGrant).toLocaleString('en-US', { style: 'currency', currency: 'GBP' }),
-      remainingCost: Number(submission.remainingCost).toLocaleString('en-US', { style: 'currency', currency: 'GBP' }),
-      sssi: submission.sSSI,
-      slurryCurrentlyTreated: submission.slurryCurrentlyTreated ?? '0',
-      slurryToBeTreated: submission.slurryToBeTreated,
-      projectImpacts: submission.projectImpacts,
+      acidificationInfrastructure: submission.acidificationInfrastructure ?? ' ',
+      slurryApplication: submission.slurryApplication ?? ' ',
+      projectCost: getCurrencyFormat(submission.projectCost),
+      potentialFunding: getCurrencyFormat(submission.calculatedGrant),
+      remainingCost: getCurrencyFormat(submission.remainingCost),
+      sssi: submission.sSSI ?? ' ',
+      slurryCurrentlyTreated: submission.slurryCurrentlyTreated ?? ' ',
+      slurryToBeTreated: submission.slurryToBeTreated ?? ' ',
+      projectImpacts: submission.projectImpacts ?? ' ',
+      dataAnalytics: submission.dataAnalytics ?? ' ',
+      dataAnalyticsScore : submission.dataAnalytics ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-data-analytics'): ' ',
+      energySource: submission.energySource ?? ' ',
+      energySourceScore: submission.projectSubject === 'Robotics and innovation' ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-energy-source'): ' ',
+      agriculturalSector: submission.agriculturalSector ?? ' ',
+      agriculturalSectorScore: submission.projectSubject === 'Robotics and innovation' ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-agricultural-sector'): ' ',
+      technology: submission.technology ?? ' ',
+      technologyScore: submission.projectSubject === 'Robotics and innovation' ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-technology') : ' ',
       projectName: submission.businessDetails.projectName,
       businessName: submission.businessDetails.businessName,
       farmerName: submission.farmerDetails.firstName,
       farmerSurname: submission.farmerDetails.lastName,
       farmerEmail: submission.farmerDetails.emailAddress,
-      agentName: submission.agentDetails?.firstName ?? 'N/A',
+      agentName: submission.agentDetails?.firstName ?? 'n/a',
       agentSurname: submission.agentDetails?.lastName ?? ' ',
-      agentEmail: submission.agentDetails?.email ?? 'N/A',
-
-      // projectImpactsScore: getQuestionScoreBand(desirabilityScore.desirability.questions, 'project-impacts'),
+      agentEmail: submission.agentDetails?.email ?? 'n/a',
+      projectImpactsScore: submission.projectSubject==='Slurry acidification' ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'project-impacts') : ' ',
       contactConsent: submission.consentOptional ? 'Yes' : 'No',
-      scoreDate: new Date().toLocaleDateString('en-GB')
+      scoreDate: new Date().toLocaleDateString('en-GB',{ year: 'numeric', month: 'long', day: 'numeric' })
 
     }
   }
 }
+function mydata(submission, desirabilityScore) {
+  console.log(desirabilityScore.desirability.questions)
+  console.log(submission,'SSSSSSSSSS')
+  const mydata1 = getEmailDetails(submission, desirabilityScore, false)
+  console.log(mydata1,'HHHHHHHHHHHHHHHHHHH')
+  return getEmailDetails(submission, desirabilityScore, false)
+}
 
 module.exports = function (submission, desirabilityScore) {
+  
   return {
-    applicantEmail: getEmailDetails(submission, desirabilityScore, false),
+    applicantEmail: mydata(submission, desirabilityScore),
     agentEmail: submission.applying === 'Agent' ? getEmailDetails(submission, desirabilityScore, false) : '',
     rpaEmail: spreadsheetConfig.sendEmailToRpa ? getEmailDetails(submission, desirabilityScore, spreadsheetConfig.rpaEmail) : ''
     //spreadsheet: getSpreadsheetDetails(submission, desirabilityScore)
