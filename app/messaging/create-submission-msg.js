@@ -165,6 +165,10 @@ function getSpreadsheetDetails (submission, desirabilityScore) {
   }
 }
 
+function getCurrencyFormat(amount) {
+  return Number(amount).toLocaleString('en-US', { minimumFractionDigits: 0, style: 'currency', currency: 'GBP' })
+}
+
 function getScoreChance (rating) {
   switch (rating.toLowerCase()) {
     case 'strong':
@@ -176,83 +180,67 @@ function getScoreChance (rating) {
   }
 }
 
-function getEmailDetails (submission, desirabilityScore, notifyTemplate, agentApplying, rpaEmail) {
-  const email = agentApplying ? submission.agentDetails.email : submission.farmerDetails.email
+function getEmailDetails (submission, desirabilityScore, rpaEmail, isAgentEmail = false) {
+  const email = isAgentEmail ? submission.agentDetails.email : submission.farmerDetails.emailAddress
   return {
     notifyTemplate: emailConfig.notifyTemplate,
     emailAddress: rpaEmail || email,
     details: {
-      firstName: agentApplying ? submission.agentDetails.firstName : submission.farmerDetails.firstName,
-      lastName: agentApplying ? submission.agentDetails.lastName : submission.farmerDetails.lastName,
+      firstName: isAgentEmail ? submission.agentDetails.firstName : submission.farmerDetails.firstName,
+      lastName: isAgentEmail ? submission.agentDetails.lastName : submission.farmerDetails.lastName,
       referenceNumber: submission.confirmationId,
       overallRating: desirabilityScore.desirability.overallRating.band,
       scoreChance: getScoreChance(desirabilityScore.desirability.overallRating.band),
-      crops: submission.farmingType,
+      projectSubject: submission.projectSubject,
+      isSlurry: submission.projectSubject === 'Slurry acidification' ? 'Yes' : 'No',
+      isRobotics: submission.projectSubject === 'Robotics and innovation' ? 'Yes' : 'No',
       legalStatus: submission.legalStatus,
       location: `England ${submission.projectPostcode}`,
-      landOwnership: submission.landOwnership,
-      tenancyAgreement: submission.tenancyLength ?? 'N/A',
-      infrastructureEquipment: submission.projectInfrastucture.join(', '),
-      irrigationEquipment: submission.projectEquipment.join(', '),
-      technology: submission.projectTechnology.join(', '),
-      itemsCost: String(submission.projectCost),
-      potentialFunding: submission.calculatedGrant,
-      remainingCost: submission.remainingCost,
-      projectStarted: submission.projectStarted,
       planningPermission: submission.planningPermission,
-      abstractionLicence: submission.abstractionLicence,
+      projectStart: submission.projectStart,
+      tenancy: submission.tenancy,
+      tenancyLength: submission.tenancyLength ?? 'n/a',
+      projectItems: submission.projectItems,
+      acidificationInfrastructure: submission.acidificationInfrastructure ?? ' ',
+      slurryApplication: submission.slurryApplication ?? ' ',
+      projectCost: getCurrencyFormat(submission.projectCost),
+      potentialFunding: getCurrencyFormat(submission.calculatedGrant),
+      remainingCost: getCurrencyFormat(submission.remainingCost),
+      sssi: submission.sSSI ?? ' ',
+      slurryCurrentlyTreated: submission.slurryCurrentlyTreated ?? ' ',
+      slurryToBeTreated: submission.slurryToBeTreated ?? ' ',
+      projectImpacts: submission.projectImpacts ?? ' ',
+      dataAnalytics: submission.dataAnalytics ?? ' ',
+      dataAnalyticsScore : submission.dataAnalytics ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-data-analytics'): ' ',
+      energySource: submission.energySource ?? ' ',
+      energySourceScore: submission.projectSubject === 'Robotics and innovation' ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-energy-source'): ' ',
+      agriculturalSector: submission.agriculturalSector ?? ' ',
+      agriculturalSectorScore: submission.projectSubject === 'Robotics and innovation' ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-agricultural-sector'): ' ',
+      technology: submission.technology ?? ' ',
+      technologyScore: submission.projectSubject === 'Robotics and innovation' ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-technology') : ' ',
       projectName: submission.businessDetails.projectName,
-      projectDetails: submission.project.join(', '),
-      projectDetailsScore: getQuestionScoreBand(desirabilityScore.desirability.questions, 'projectSubject'),
-      irrigatedCrops: submission.irrigatedCrops,
-      irrigatedLandCurrent: submission.irrigatedLandCurrent,
-      irrigatedLandTarget: submission.irrigatedLandTarget,
-      projectImpact: getQuestionScoreBand(desirabilityScore.desirability.questions, 'projectImpact'),
-      ProductivitySourceCurrent: submission.ProductivitySourceCurrent.join(', '),
-      ProductivitySourcePlanned: submission.ProductivitySourcePlanned.join(', '),
-      dataAnalytics: getQuestionScoreBand(desirabilityScore.desirability.questions, 'dataAnalytics'),
-      irrigationCurrent: submission.irrigationCurrent.join(', '),
-      irrigationPlanned: submission.irrigationPlanned.join(', '),
-      energySource: getQuestionScoreBand(desirabilityScore.desirability.questions, 'energySource'),
-      productivity: submission.productivity.join(', '),
-      agriculturalSector: getQuestionScoreBand(desirabilityScore.desirability.questions, 'agriculturalSector'),
-      sssi: submission.sSSI,
       businessName: submission.businessDetails.businessName,
       farmerName: submission.farmerDetails.firstName,
       farmerSurname: submission.farmerDetails.lastName,
-      agentName: submission.agentDetails?.firstName ?? 'N/A',
+      farmerEmail: submission.farmerDetails.emailAddress,
+      agentName: submission.agentDetails?.firstName ?? 'n/a',
       agentSurname: submission.agentDetails?.lastName ?? ' ',
-      agentBusinessName: submission.agentDetails?.businessName ?? 'N/A',
-      farmerEmail: submission.farmerDetails.email,
-      agentEmail: submission.agentDetails?.email ?? 'N/A',
+      agentEmail: submission.agentDetails?.email ?? 'n/a',
+      projectImpactsScore: submission.projectSubject==='Slurry acidification' ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'project-impacts') : ' ',
       contactConsent: submission.consentOptional ? 'Yes' : 'No',
-      scoreDate: new Date().toLocaleDateString('en-GB')
+      scoreDate: new Date().toLocaleDateString('en-GB',{ year: 'numeric', month: 'long', day: 'numeric' })
 
     }
   }
 }
 
-function getAgentEmailDetails (submission, desirabilityScore) {
-  if (submission.applying === 'Agent') {
-    return getEmailDetails(submission, desirabilityScore, emailConfig.notifyTemplate, true, false)
-  }
-
-  return null
-}
-
-function getApplicantEmailDetails (submission, desirabilityScore) {
-  return getEmailDetails(submission, desirabilityScore, emailConfig.notifyTemplate, false, false)
-}
-
-function getRPAEmailDetails (submission, desirabilityScore) {
-  return getEmailDetails(submission, desirabilityScore, emailConfig.notifyTemplate, false, spreadsheetConfig.rpaEmail)
-}
 
 module.exports = function (submission, desirabilityScore) {
+  
   return {
-    applicantEmail: getApplicantEmailDetails(submission, desirabilityScore),
-    agentEmail: getAgentEmailDetails(submission, desirabilityScore),
-    rpaEmail: spreadsheetConfig.sendEmailToRpa ? getRPAEmailDetails(submission, desirabilityScore) : '',
+    applicantEmail: getEmailDetails(submission, desirabilityScore, false),
+    agentEmail: submission.applying === 'Agent' ? getEmailDetails(submission, desirabilityScore, false, true) : null,
+    rpaEmail: spreadsheetConfig.sendEmailToRpa ? getEmailDetails(submission, desirabilityScore, spreadsheetConfig.rpaEmail) : null,
     spreadsheet: getSpreadsheetDetails(submission, desirabilityScore)
   }
 }

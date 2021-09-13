@@ -13,7 +13,7 @@ services:
     container_name: ffc-grants-prod-eligibility-development
     ports:
       - "3011:3000"
-      - "9232:9229"
+      - "9235:9229"
     volumes:
       - ./app/:/home/node/app/
       - ./package.json:/home/node/package.json
