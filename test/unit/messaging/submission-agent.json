@@ -35,7 +35,7 @@
     "title": "Mrs",
     "firstName": "Mary",
     "lastName": "Jones",
-    "email": "test@test.com",
+    "emailAddress": "test@test.com",
     "landline": "01888 123665",
     "mobile": "08870 554024",
     "address1": "123 Road",
