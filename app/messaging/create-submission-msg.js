@@ -233,18 +233,12 @@ function getEmailDetails (submission, desirabilityScore, rpaEmail) {
     }
   }
 }
-function mydata(submission, desirabilityScore) {
-  console.log(desirabilityScore.desirability.questions)
-  console.log(submission,'SSSSSSSSSS')
-  const mydata1 = getEmailDetails(submission, desirabilityScore, false)
-  console.log(mydata1,'HHHHHHHHHHHHHHHHHHH')
-  return getEmailDetails(submission, desirabilityScore, false)
-}
+
 
 module.exports = function (submission, desirabilityScore) {
   
   return {
-    applicantEmail: mydata(submission, desirabilityScore),
+    applicantEmail: getEmailDetails(submission, desirabilityScore, false),
     agentEmail: submission.applying === 'Agent' ? getEmailDetails(submission, desirabilityScore, false) : '',
     rpaEmail: spreadsheetConfig.sendEmailToRpa ? getEmailDetails(submission, desirabilityScore, spreadsheetConfig.rpaEmail) : ''
     //spreadsheet: getSpreadsheetDetails(submission, desirabilityScore)
