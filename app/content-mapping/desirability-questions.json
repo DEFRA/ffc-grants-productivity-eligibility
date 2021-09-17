@@ -2,7 +2,7 @@
   "projectSubject": [
     {
       "key": "project-subject",
-      "title": "Project Subject",
+      "title": "Project subject",
       "answers": {
         "project-subject-A1": "Robotics and innovation",
         "project-subject-A2": "Slurry acidification"
@@ -21,7 +21,7 @@
   ],
   "dataAnalytics": [{
     "key": "robotics-data-analytics",
-    "title": "Robotics Data Analytics",
+    "title": "Data analytics",
     "answers":
     {
       "robotics-data-analytics-A1": "Yes, we have the technology already",
@@ -32,7 +32,7 @@
   "energySource": [
     {
       "key": "robotics-energy-source",
-      "title": "Robotics Energy Source",
+      "title": "Energy source",
       "answers": {
         "robotics-energy-source-A1": "Mains electricity",
         "robotics-energy-source-A2": "Renewable electricity generated on the farm",
@@ -44,7 +44,7 @@
   "agriculturalSector": [
     {
       "key": "robotics-agricultural-sector",
-      "title": "Robotics Agricultural Sector",
+      "title": "Agricultural sector",
       "answers": {
         "robotics-agricultural-sector-A1": "Horticulture",
         "robotics-agricultural-sector-A2": "Arable",
@@ -56,7 +56,7 @@
   "roboticProjectImpacts": [
     {
       "key": "robotics-technology",
-      "title": "Robotics Project Impact",
+      "title": "Project impact",
       "answers": {
         "robotics-technology-A1": "Yes, we’re using it now",
         "robotics-technology-A2": "Yes, as a pilot, demonstration or trial",
