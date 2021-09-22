@@ -12,7 +12,7 @@
   "projectImpacts": [
     {
       "key": "project-impacts",
-      "title": "Main crops",
+      "title": "Project impact",
       "answers": {
         "project-impacts-A1": "Introduce acidification for the first time",
         "project-impacts-A2": "Add additional acidification installations"
@@ -56,7 +56,7 @@
   "roboticProjectImpacts": [
     {
       "key": "robotics-technology",
-      "title": "Project impact",
+      "title": "Technology",
       "answers": {
         "robotics-technology-A1": "Yes, we’re using it now",
         "robotics-technology-A2": "Yes, as a pilot, demonstration or trial",
