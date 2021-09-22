@@ -13,15 +13,11 @@ function generateRow (rowNumber, name, value, bold = false) {
   }
 }
 
-function farmingTypeMapping (farmingType) {
-  switch (farmingType) {
-    case 'Crops for the food industry':
-      return 'Arable farmer'
-    case 'Horticulture (including ornamentals)':
-      return 'Horticultural business'
-    default:
-      return 'Error: failed to map farming type'
+function getProjectItems (projectItems, infrastructure) {
+  if (infrastructure === 'acidification infrastructure') {
+    return projectItems.push(infrastructure).join(', ').substring(0, 60)
   }
+  return projectItems.join(', ').substring(0, 60)
 }
 
 function calculateBusinessSize (employees, turnover) {
@@ -89,21 +85,24 @@ function getSpreadsheetDetails (submission, desirabilityScore) {
           generateRow(2, 'FA or OA', 'Outline Application'),
           generateRow(40, 'Scheme', 'Farming Transformation Fund'),
           generateRow(39, 'Sub scheme', subScheme),
-          generateRow(43, 'Theme', 'Productivity Resource Management'),
-          generateRow(90, 'Project type', 'Productivity management'),
+          generateRow(43, 'Theme', submission.projectSubject),
+          generateRow(90, 'Project type', submission.projectSubject),
           generateRow(41, 'Owner', 'RD'),
-          generateRow(341, 'Grant Application Window', ''),
-          generateRow(53, 'Business Type', farmingTypeMapping(submission.farmingType)),
+          generateRow(341, 'Grant Launch Date', ''),
+          // generateRow(53, 'Business Type', farmingTypeMapping(submission.farmingType)),
           generateRow(23, 'Status of applicant', submission.legalStatus),
           generateRow(45, 'Location of project (postcode)', submission.projectPostcode),
-          generateRow(342, 'Land owned by Farm', submission.landOwnership),
+          generateRow(376, 'Project Started', submission.projectStart),
+          generateRow(342, 'Land owned by Farm', submission.tenancy),
           generateRow(343, 'Tenancy for next 5 years', submission.tenancyLength ?? ''),
-          generateRow(344, 'Irrigation Infrastructure ', submission.projectItemsList.join('|')),
+          // generateRow(344, 'Irrigation Infrastructure ', submission.projectItemsList.join('|')),
           generateRow(55, 'Total project expenditure', String(submission.projectCost)),
           generateRow(57, 'Grant rate', '40'),
           generateRow(56, 'Grant amount requested', submission.calculatedGrant),
           generateRow(345, 'Remaining Cost to Farmer', submission.remainingCost),
           generateRow(346, 'Planning Permission Status', submission.planningPermission),
+          generateRow(377, 'Low emission application equipment', submission.slurryApplication),
+
           generateRow(347, 'Abstraction License Status', submission.abstractionLicence),
           generateRow(348, 'Irrigation Impact', submission.project.join('|')),
           generateRow(349, 'Irrigation Impact Score', getQuestionScoreBand(desirabilityScore.desirability.questions, 'projectSubject')),
@@ -116,7 +115,7 @@ function getSpreadsheetDetails (submission, desirabilityScore) {
           generateRow(356, 'To-Be Productivity Source', submission.ProductivitySourcePlanned.join('|')),
           generateRow(357, 'Productivity Source Score', getQuestionScoreBand(desirabilityScore.desirability.questions, 'dataAnalytics')),
           generateRow(358, 'As-Is Irrigation Method', submission.irrigationCurrent.join('|')),
-          generateRow(359, 'To-Be Irrigation Method', submission.irrigationPlanned.join('|')),
+          generateRow(359, 'To-Be Irrigation Method', submission?.irrigationPlanned.join('|')),
           generateRow(360, 'Irrigation Method Score', getQuestionScoreBand(desirabilityScore.desirability.questions, 'energySource')),
           generateRow(361, 'Irrigation Productivity Benefit', submission.productivity.join('|')),
           generateRow(362, 'Irrigation Productivity Score', getQuestionScoreBand(desirabilityScore.desirability.questions, 'agriculturalSector')),
@@ -130,7 +129,7 @@ function getSpreadsheetDetails (submission, desirabilityScore) {
           generateRow(367, 'Annual Turnover', submission.businessDetails.businessTurnover),
           generateRow(22, 'Employees', submission.businessDetails.numberEmployees),
           generateRow(20, 'Business size', calculateBusinessSize(submission.businessDetails.numberEmployees, submission.businessDetails.businessTurnover)),
-          generateRow(44, 'Description of project', submission.projectItemsList.join(', ').substring(0, 60)),
+          generateRow(44, 'Project Items', getProjectItems(submission.projectItems, submission.acidificationInfrastructure)),
           generateRow(91, 'Are you an AGENT applying on behalf of your customer', submission.applying === 'Agent' ? 'Yes' : 'No'),
           generateRow(5, 'Surname', submission.farmerDetails.lastName),
           generateRow(6, 'Forename', submission.farmerDetails.firstName),
@@ -165,7 +164,7 @@ function getSpreadsheetDetails (submission, desirabilityScore) {
   }
 }
 
-function getCurrencyFormat(amount) {
+function getCurrencyFormat (amount) {
   return Number(amount).toLocaleString('en-US', { minimumFractionDigits: 0, style: 'currency', currency: 'GBP' })
 }
 
@@ -181,13 +180,13 @@ function getScoreChance (rating) {
 }
 
 function getEmailDetails (submission, desirabilityScore, rpaEmail, isAgentEmail = false) {
-  const email = isAgentEmail ? submission.agentDetails.email : submission.farmerDetails.emailAddress
+  const email = isAgentEmail ? submission.agentsDetails.emailAddress : submission.farmerDetails.emailAddress
   return {
     notifyTemplate: emailConfig.notifyTemplate,
     emailAddress: rpaEmail || email,
     details: {
-      firstName: isAgentEmail ? submission.agentDetails.firstName : submission.farmerDetails.firstName,
-      lastName: isAgentEmail ? submission.agentDetails.lastName : submission.farmerDetails.lastName,
+      firstName: isAgentEmail ? submission.agentsDetails.firstName : submission.farmerDetails.firstName,
+      lastName: isAgentEmail ? submission.agentsDetails.lastName : submission.farmerDetails.lastName,
       referenceNumber: submission.confirmationId,
       overallRating: desirabilityScore.desirability.overallRating.band,
       scoreChance: getScoreChance(desirabilityScore.desirability.overallRating.band),
@@ -211,11 +210,11 @@ function getEmailDetails (submission, desirabilityScore, rpaEmail, isAgentEmail 
       slurryToBeTreated: submission.slurryToBeTreated ?? ' ',
       projectImpacts: submission.projectImpacts ?? ' ',
       dataAnalytics: submission.dataAnalytics ?? ' ',
-      dataAnalyticsScore : submission.dataAnalytics ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-data-analytics'): ' ',
+      dataAnalyticsScore: submission.dataAnalytics ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-data-analytics') : ' ',
       energySource: submission.energySource ?? ' ',
-      energySourceScore: submission.projectSubject === 'Robotics and innovation' ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-energy-source'): ' ',
+      energySourceScore: submission.projectSubject === 'Robotics and innovation' ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-energy-source') : ' ',
       agriculturalSector: submission.agriculturalSector ?? ' ',
-      agriculturalSectorScore: submission.projectSubject === 'Robotics and innovation' ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-agricultural-sector'): ' ',
+      agriculturalSectorScore: submission.projectSubject === 'Robotics and innovation' ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-agricultural-sector') : ' ',
       technology: submission.technology ?? ' ',
       technologyScore: submission.projectSubject === 'Robotics and innovation' ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-technology') : ' ',
       projectName: submission.businessDetails.projectName,
@@ -223,24 +222,22 @@ function getEmailDetails (submission, desirabilityScore, rpaEmail, isAgentEmail 
       farmerName: submission.farmerDetails.firstName,
       farmerSurname: submission.farmerDetails.lastName,
       farmerEmail: submission.farmerDetails.emailAddress,
-      agentName: submission.agentDetails?.firstName ?? 'n/a',
-      agentSurname: submission.agentDetails?.lastName ?? ' ',
-      agentEmail: submission.agentDetails?.email ?? 'n/a',
-      projectImpactsScore: submission.projectSubject==='Slurry acidification' ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'project-impacts') : ' ',
+      agentName: submission.agentsDetails?.firstName ?? 'n/a',
+      agentSurname: submission.agentsDetails?.lastName ?? ' ',
+      agentEmail: submission.agentsDetails?.email ?? 'n/a',
+      projectImpactsScore: submission.projectSubject === 'Slurry acidification' ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'project-impacts') : ' ',
       contactConsent: submission.consentOptional ? 'Yes' : 'No',
-      scoreDate: new Date().toLocaleDateString('en-GB',{ year: 'numeric', month: 'long', day: 'numeric' })
+      scoreDate: new Date().toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })
 
     }
   }
 }
 
-
 module.exports = function (submission, desirabilityScore) {
-  
   return {
     applicantEmail: getEmailDetails(submission, desirabilityScore, false),
     agentEmail: submission.applying === 'Agent' ? getEmailDetails(submission, desirabilityScore, false, true) : null,
-    rpaEmail: spreadsheetConfig.sendEmailToRpa ? getEmailDetails(submission, desirabilityScore, spreadsheetConfig.rpaEmail) : null,
-    spreadsheet: getSpreadsheetDetails(submission, desirabilityScore)
+    rpaEmail: spreadsheetConfig.sendEmailToRpa ? getEmailDetails(submission, desirabilityScore, spreadsheetConfig.rpaEmail) : null
+    // spreadsheet: getSpreadsheetDetails(submission, desirabilityScore)
   }
 }
