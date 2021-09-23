@@ -1,12 +1,12 @@
 {
   "confirmationId": "WM-71A-79E",
   "abstractionLicence": "Expected to have by 31st December 2021",
-  "agentDetails": {
+  "agentsDetails": {
     "title": "Mr",
     "firstName": "Geoff",
     "lastName": "Hopkin",
     "businessName": "My Farm Business",
-    "email": "me@me.com",
+    "emailAddress": "me@me.com",
     "landline": "",
     "mobile": "08765 443322",
     "address1": "88 The Street",
