@@ -48,17 +48,14 @@
   "irrigatedCrops": "Fruit",
   "irrigatedLandCurrent": "0",
   "irrigatedLandTarget": "2",
-  "irrigationCurrent": [
-    "Not currently irrigating"
+  "projectItems": [
+    "acid storage",
+    "dosing equipment",
+    "mixing tank",
+    "pump"
   ],
-  "irrigationPlanned": [
-    "Capillary bed"
-  ],
-  "waterSourceCurrent": [
-    "Not currently irrigating"
-  ],
-  "waterSourcePlanned": [
-    "Rain water harvesting"
+  "acidificationInfrastructure": [
+    "acidification infrastructure"
   ],
   "legalStatus": "Limited Liability Partnership",
   "planningPermission": "Not needed",
