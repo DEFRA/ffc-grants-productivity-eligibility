@@ -24,7 +24,7 @@ describe('Create submission message', () => {
     expect(msg).toHaveProperty('agentEmail')
     expect(msg).toHaveProperty('applicantEmail')
     expect(msg).toHaveProperty('rpaEmail')
-    // expect(msg).toHaveProperty('spreadsheet')
+    expect(msg).toHaveProperty('spreadsheet')
     expect(msg.applicantEmail.emailAddress).toBe(farmerSubmission.farmerDetails.emailAddress)
     expect(msg.rpaEmail.emailAddress).toBe('FTF@rpa.gov.uk')
     expect(msg.agentEmail).toBe(null)
@@ -42,7 +42,7 @@ describe('Create submission message', () => {
     expect(msg).toHaveProperty('agentEmail')
     expect(msg).toHaveProperty('applicantEmail')
     expect(msg).toHaveProperty('rpaEmail')
-    // expect(msg).toHaveProperty('spreadsheet')
+    expect(msg).toHaveProperty('spreadsheet')
     expect(msg.applicantEmail.emailAddress).toBe(farmerSubmission.farmerDetails.emailAddress)
     expect(msg.rpaEmail.emailAddress).toBeFalsy
     expect(msg.agentEmail).toBe(null)
@@ -55,7 +55,7 @@ describe('Create submission message', () => {
     expect(msg).toHaveProperty('agentEmail')
     expect(msg).toHaveProperty('applicantEmail')
     expect(msg).toHaveProperty('rpaEmail')
-    // expect(msg).toHaveProperty('spreadsheet')
+    expect(msg).toHaveProperty('spreadsheet')
     expect(msg.agentEmail.emailAddress).toBe(agentSubmission.agentsDetails.emailAddress)
     expect(msg.applicantEmail.emailAddress).toBe(agentSubmission.farmerDetails.emailAddress)
     expect(msg.rpaEmail.emailAddress).toBe('FTF@rpa.gov.uk')
@@ -78,21 +78,21 @@ describe('Create submission message', () => {
     )
   })
 
-  // test('Spreadsheet part of message should have correct properties', () => {
-  //   const agentSubmission = require('./submission-agent.json')
-  //   const msg = createMsg(agentSubmission, desirabilityScore)
+  test('Spreadsheet part of message should have correct properties', () => {
+    const agentSubmission = require('./submission-agent.json')
+    const msg = createMsg(agentSubmission, desirabilityScore)
 
-  //   expect(msg.spreadsheet).toHaveProperty('filename')
-  //   expect(msg.spreadsheet).toHaveProperty('uploadLocation')
-  //   expect(msg.spreadsheet).toHaveProperty('worksheets')
-  //   expect(msg.spreadsheet.worksheets.length).toBe(1)
-  //   expect(msg.spreadsheet.worksheets[0]).toHaveProperty('title')
-  //   expect(msg.spreadsheet.worksheets[0]).toHaveProperty('hideEmptyRows')
-  //   expect(msg.spreadsheet.worksheets[0]).toHaveProperty('defaultColumnWidth')
-  //   expect(msg.spreadsheet.worksheets[0]).toHaveProperty('protectPassword')
-  //   expect(msg.spreadsheet.worksheets[0]).toHaveProperty('rows')
-  //   expect(msg.spreadsheet.worksheets[0].rows.length).toBe(84)
-  // })
+    expect(msg.spreadsheet).toHaveProperty('filename')
+    expect(msg.spreadsheet).toHaveProperty('uploadLocation')
+    expect(msg.spreadsheet).toHaveProperty('worksheets')
+    expect(msg.spreadsheet.worksheets.length).toBe(1)
+    expect(msg.spreadsheet.worksheets[0]).toHaveProperty('title')
+    expect(msg.spreadsheet.worksheets[0]).toHaveProperty('hideEmptyRows')
+    expect(msg.spreadsheet.worksheets[0]).toHaveProperty('defaultColumnWidth')
+    expect(msg.spreadsheet.worksheets[0]).toHaveProperty('protectPassword')
+    expect(msg.spreadsheet.worksheets[0]).toHaveProperty('rows')
+    expect(msg.spreadsheet.worksheets[0].rows.length).toBe(70)
+  })
 
   // test('Protect password property should not be set if config is false', () => {
   //   jest.mock('../../../app/config/spreadsheet', () => ({
@@ -115,39 +115,39 @@ describe('Create submission message', () => {
   //   expect(msg.spreadsheet.worksheets[0].rows.find(r => r.row === 53).values[2]).toBe('Error: failed to map farming type')
   // })
 
-  // test('Under 10 employees results in micro business definition', () => {
-  //   const farmerSubmission = require('./submission-farmer.json')
-  //   farmerSubmission.businessDetails.numberEmployees = 1
-  //   farmerSubmission.businessDetails.businessTurnover = 1
-  //   const msg = createMsg(farmerSubmission, desirabilityScore)
+  test('Under 10 employees results in micro business definition', () => {
+    const farmerSubmission = require('./submission-farmer.json')
+    farmerSubmission.businessDetails.numberEmployees = 1
+    farmerSubmission.businessDetails.businessTurnover = 1
+    const msg = createMsg(farmerSubmission, desirabilityScore)
 
-  //   expect(msg.spreadsheet.worksheets[0].rows.find(r => r.row === 20).values[2]).toBe('Micro')
-  // })
+    expect(msg.spreadsheet.worksheets[0].rows.find(r => r.row === 20).values[2]).toBe('Micro')
+  })
 
-  // test('Under 50 employees results in small business definition', () => {
-  //   const farmerSubmission = require('./submission-farmer.json')
-  //   farmerSubmission.businessDetails.numberEmployees = 10
-  //   farmerSubmission.businessDetails.businessTurnover = 1
-  //   const msg = createMsg(farmerSubmission, desirabilityScore)
+  test('Under 50 employees results in small business definition', () => {
+    const farmerSubmission = require('./submission-farmer.json')
+    farmerSubmission.businessDetails.numberEmployees = 10
+    farmerSubmission.businessDetails.businessTurnover = 1
+    const msg = createMsg(farmerSubmission, desirabilityScore)
 
-  //   expect(msg.spreadsheet.worksheets[0].rows.find(r => r.row === 20).values[2]).toBe('Small')
-  // })
+    expect(msg.spreadsheet.worksheets[0].rows.find(r => r.row === 20).values[2]).toBe('Small')
+  })
 
-  // test('Under 250 employees results in medium business definition', () => {
-  //   const farmerSubmission = require('./submission-farmer.json')
-  //   farmerSubmission.businessDetails.numberEmployees = 50
-  //   farmerSubmission.businessDetails.businessTurnover = 1
-  //   const msg = createMsg(farmerSubmission, desirabilityScore)
+  test('Under 250 employees results in medium business definition', () => {
+    const farmerSubmission = require('./submission-farmer.json')
+    farmerSubmission.businessDetails.numberEmployees = 50
+    farmerSubmission.businessDetails.businessTurnover = 1
+    const msg = createMsg(farmerSubmission, desirabilityScore)
 
-  //   expect(msg.spreadsheet.worksheets[0].rows.find(r => r.row === 20).values[2]).toBe('Medium')
-  // })
+    expect(msg.spreadsheet.worksheets[0].rows.find(r => r.row === 20).values[2]).toBe('Medium')
+  })
 
-  // test('Over 250 employees results in large business definition', () => {
-  //   const farmerSubmission = require('./submission-farmer.json')
-  //   farmerSubmission.businessDetails.numberEmployees = 250
-  //   farmerSubmission.businessDetails.businessTurnover = 1
-  //   const msg = createMsg(farmerSubmission, desirabilityScore)
+  test('Over 250 employees results in large business definition', () => {
+    const farmerSubmission = require('./submission-farmer.json')
+    farmerSubmission.businessDetails.numberEmployees = 250
+    farmerSubmission.businessDetails.businessTurnover = 1
+    const msg = createMsg(farmerSubmission, desirabilityScore)
 
-  //   expect(msg.spreadsheet.worksheets[0].rows.find(r => r.row === 20).values[2]).toBe('Large')
-  // })
+    expect(msg.spreadsheet.worksheets[0].rows.find(r => r.row === 20).values[2]).toBe('Large')
+  })
 })

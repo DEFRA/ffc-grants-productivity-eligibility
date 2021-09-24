@@ -38,12 +38,14 @@
   "irrigationCurrent": [
     "Trickle"
   ],
-  "irrigationPlanned": [
-    "Capillary bed",
-    "Ebb and flow"
+  "projectItems": [
+    "acid storage",
+    "dosing equipment",
+    "mixing tank",
+    "pump"
   ],
-  "waterSourceCurrent": [
-    "Mains"
+  "acidificationInfrastructure": [
+    "acidification infrastructure"
   ],
   "waterSourcePlanned": [
     "Rain water harvesting",
