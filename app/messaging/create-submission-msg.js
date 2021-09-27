@@ -14,6 +14,7 @@ function generateRow (rowNumber, name, value, bold = false) {
 }
 
 function getProjectItems (projectItems, infrastructure, roboticEquipment) {
+  projectItems = [projectItems].flat()
   if (infrastructure === 'acidification infrastructure') {
     return projectItems.push(infrastructure).join('|').substring(0, 60)
   } else if (roboticEquipment) {
@@ -107,8 +108,8 @@ function getSpreadsheetDetails (submission, desirabilityScore) {
           generateRow(383, 'Current Slurry Acidify Volume', submission.slurryCurrentlyTreated ?? ''),
           generateRow(384, 'Future Slurry Acidify Volume', submission.slurryToBeTreated ?? ''),
           generateRow(378, 'Data Analytics', submission.dataAnalytics ?? ''),
-          generateRow(379, 'Energy Type', submission.energySource?.join('|') ?? ''),
-          generateRow(380, 'Agricultural Sector for Grant Item', submission.agriculturalSector?.join('|') ?? ''),
+          generateRow(379, 'Energy Type', [submission.energySource].flat().join('|') ?? ''),
+          generateRow(380, 'Agricultural Sector for Grant Item', [submission.agriculturalSector].flat().join('|') ?? ''),
           generateRow(381, 'Currently using Grant Item', submission.technology ?? ''),
           // generateRow(354, 'Irrigation Hectare Score', getQuestionScoreBand(desirabilityScore.desirability.questions, 'projectImpact')),
           generateRow(49, 'Site of Special Scientific Interest (SSSI)', submission.sSSI ?? ''),
@@ -218,12 +219,16 @@ function getEmailDetails (submission, desirabilityScore, rpaEmail, isAgentEmail 
     }
   }
 }
+function spreadsheet (submission, desirabilityScore) {
+  console.log(getSpreadsheetDetails(submission, desirabilityScore).worksheets[0],'LLLLLLLLLL')
+  return getSpreadsheetDetails(submission, desirabilityScore)
+}
 
 module.exports = function (submission, desirabilityScore) {
   return {
     applicantEmail: getEmailDetails(submission, desirabilityScore, false),
     agentEmail: submission.applying === 'Agent' ? getEmailDetails(submission, desirabilityScore, false, true) : null,
     rpaEmail: spreadsheetConfig.sendEmailToRpa ? getEmailDetails(submission, desirabilityScore, spreadsheetConfig.rpaEmail) : null,
-    spreadsheet: getSpreadsheetDetails(submission, desirabilityScore)
+    spreadsheet: spreadsheet(submission, desirabilityScore)
   }
 }
