@@ -16,9 +16,9 @@ function generateRow (rowNumber, name, value, bold = false) {
 function getProjectItems (projectItems, infrastructure, roboticEquipment) {
   projectItems = [projectItems].flat()
   if (infrastructure === 'acidification infrastructure') {
-    return projectItems.push(infrastructure).join('|').substring(0, 60)
+    projectItems.push(infrastructure)
   } else if (roboticEquipment) {
-    return projectItems.push(roboticEquipment).join('|').substring(0, 60)
+    projectItems.push(roboticEquipment)
   }
   return projectItems.join('|').substring(0, 60)
 }
