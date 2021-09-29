@@ -67,7 +67,8 @@ function generateExcelFilename (scheme, projectName, businessName, referenceNumb
 function getSpreadsheetDetails (submission, desirabilityScore) {
   const today = new Date()
   const todayStr = today.toLocaleDateString('en-GB')
-  const subScheme = `FTF-${submission.projectSubject === 'Slurry acidification' ? 'Slurry' : 'Robotics'}`
+  const schemeName = submission.projectSubject === 'Slurry acidification' ? 'Slurry' : 'Robotics'
+  const subScheme = `FTF-${schemeName}`
 
   return {
     filename: generateExcelFilename(
@@ -77,7 +78,7 @@ function getSpreadsheetDetails (submission, desirabilityScore) {
       submission.confirmationId.trim(),
       today
     ),
-    uploadLocation: `Farming Investment Fund/Farming Transformation Fund/${spreadsheetConfig.uploadEnvironment}/Productivity/${submission.projectSubject === 'Slurry acidification' ? 'Slurry' : 'Robotics'}/`,
+    uploadLocation: `Farming Investment Fund/Farming Transformation Fund/${spreadsheetConfig.uploadEnvironment}/Productivity/${schemeName}/`,
     worksheets: [
       {
         title: 'DORA DATA',
