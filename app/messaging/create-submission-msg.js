@@ -67,7 +67,8 @@ function generateExcelFilename (scheme, projectName, businessName, referenceNumb
 function getSpreadsheetDetails (submission, desirabilityScore) {
   const today = new Date()
   const todayStr = today.toLocaleDateString('en-GB')
-  const subScheme = 'FTF-Productivity'
+  const schemeName = submission.projectSubject === 'Slurry acidification' ? 'Slurry' : 'Robotics'
+  const subScheme = `FTF-${schemeName}`
 
   return {
     filename: generateExcelFilename(
@@ -77,7 +78,7 @@ function getSpreadsheetDetails (submission, desirabilityScore) {
       submission.confirmationId.trim(),
       today
     ),
-    uploadLocation: `Farming Investment Fund/Farming Transformation Fund/${spreadsheetConfig.uploadEnvironment}/Productivity/`,
+    uploadLocation: `Farming Investment Fund/Farming Transformation Fund/${spreadsheetConfig.uploadEnvironment}/Productivity/${schemeName}/`,
     worksheets: [
       {
         title: 'DORA DATA',
@@ -185,8 +186,9 @@ function getEmailDetails (submission, desirabilityScore, rpaEmail, isAgentEmail 
       planningPermission: submission.planningPermission,
       projectStart: submission.projectStart,
       tenancy: submission.tenancy,
+      isTenancyLength: submission.tenancyLength ? 'Yes' : 'No',
       tenancyLength: submission.tenancyLength ?? 'n/a',
-      projectItems: submission.projectItems,
+      projectItems: submission.projectItems.join(),
       acidificationInfrastructure: submission.acidificationInfrastructure ?? ' ',
       slurryApplication: submission.slurryApplication ?? ' ',
       projectCost: getCurrencyFormat(submission.projectCost),
@@ -196,12 +198,15 @@ function getEmailDetails (submission, desirabilityScore, rpaEmail, isAgentEmail 
       slurryCurrentlyTreated: submission.slurryCurrentlyTreated ?? ' ',
       slurryToBeTreated: submission.slurryToBeTreated ?? ' ',
       projectImpacts: submission.projectImpacts ?? ' ',
+      projectImpact: submission.projectImpact ?? ' ',
+      isDataAnalytics: submission.dataAnalytics ? 'Yes' : 'No',
       dataAnalytics: submission.dataAnalytics ?? ' ',
       dataAnalyticsScore: submission.dataAnalytics ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-data-analytics') : ' ',
-      energySource: submission.energySource ?? ' ',
+      energySource: submission.energySource ? submission.energySource.join() : ' ',
       energySourceScore: submission.projectSubject === 'Robotics and innovation' ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-energy-source') : ' ',
       agriculturalSector: submission.agriculturalSector ?? ' ',
       agriculturalSectorScore: submission.projectSubject === 'Robotics and innovation' ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-agricultural-sector') : ' ',
+      isTechnology: submission.technology ? 'Yes' : 'No',
       technology: submission.technology ?? ' ',
       technologyScore: submission.projectSubject === 'Robotics and innovation' ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-technology') : ' ',
       projectName: submission.businessDetails.projectName,
@@ -209,9 +214,10 @@ function getEmailDetails (submission, desirabilityScore, rpaEmail, isAgentEmail 
       farmerName: submission.farmerDetails.firstName,
       farmerSurname: submission.farmerDetails.lastName,
       farmerEmail: submission.farmerDetails.emailAddress,
+      isAgent: submission.agentsDetails ? 'Yes' : 'No',
       agentName: submission.agentsDetails?.firstName ?? 'n/a',
       agentSurname: submission.agentsDetails?.lastName ?? ' ',
-      agentEmail: submission.agentsDetails?.email ?? 'n/a',
+      agentEmail: submission.agentsDetails?.emailAddress ?? 'n/a',
       projectImpactsScore: submission.projectSubject === 'Slurry acidification' ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'project-impacts') : ' ',
       contactConsent: submission.consentOptional ? 'Yes' : 'No',
       scoreDate: new Date().toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })
@@ -220,8 +226,9 @@ function getEmailDetails (submission, desirabilityScore, rpaEmail, isAgentEmail 
   }
 }
 function spreadsheet (submission, desirabilityScore) {
-  console.log(getSpreadsheetDetails(submission, desirabilityScore).worksheets[0],'LLLLLLLLLL')
-  return getSpreadsheetDetails(submission, desirabilityScore)
+  const data = getSpreadsheetDetails(submission, desirabilityScore)
+  console.log(data.worksheets[0], 'Spreadsheet Data')
+  return data
 }
 
 module.exports = function (submission, desirabilityScore) {
