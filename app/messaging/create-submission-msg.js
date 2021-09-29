@@ -169,6 +169,7 @@ function getScoreChance (rating) {
 
 function getEmailDetails (submission, desirabilityScore, rpaEmail, isAgentEmail = false) {
   const email = isAgentEmail ? submission.agentsDetails.emailAddress : submission.farmerDetails.emailAddress
+  const projectItems = Array.isArray(submission.projectItems) ? submission.projectItems.join() : submission.projectItems
   return {
     notifyTemplate: emailConfig.notifyTemplate,
     emailAddress: rpaEmail || email,
@@ -188,7 +189,7 @@ function getEmailDetails (submission, desirabilityScore, rpaEmail, isAgentEmail 
       tenancy: submission.tenancy,
       isTenancyLength: submission.tenancyLength ? 'Yes' : 'No',
       tenancyLength: submission.tenancyLength ?? ' ',
-      projectItems: submission.projectItems.join(),
+      projectItems: submission.projectItems ? projectItems : '',
       acidificationInfrastructure: submission.acidificationInfrastructure ?? ' ',
       slurryApplication: submission.slurryApplication ?? ' ',
       projectCost: getCurrencyFormat(submission.projectCost),
