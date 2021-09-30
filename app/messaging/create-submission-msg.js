@@ -169,7 +169,6 @@ function getScoreChance (rating) {
 
 function getEmailDetails (submission, desirabilityScore, rpaEmail, isAgentEmail = false) {
   const email = isAgentEmail ? submission.agentsDetails.emailAddress : submission.farmerDetails.emailAddress
-  const projectItems = Array.isArray(submission.projectItems) ? submission.projectItems.join() : submission.projectItems
   return {
     notifyTemplate: emailConfig.notifyTemplate,
     emailAddress: rpaEmail || email,
@@ -189,7 +188,7 @@ function getEmailDetails (submission, desirabilityScore, rpaEmail, isAgentEmail 
       tenancy: submission.tenancy,
       isTenancyLength: submission.tenancyLength ? 'Yes' : 'No',
       tenancyLength: submission.tenancyLength ?? ' ',
-      projectItems: submission.projectItems ? projectItems : '',
+      projectItems: submission.projectItems ? [submission.projectItems].flat().join() : '',
       acidificationInfrastructure: submission.acidificationInfrastructure ?? ' ',
       slurryApplication: submission.slurryApplication ?? ' ',
       projectCost: getCurrencyFormat(submission.projectCost),
@@ -203,9 +202,9 @@ function getEmailDetails (submission, desirabilityScore, rpaEmail, isAgentEmail 
       isDataAnalytics: submission.dataAnalytics ? 'Yes' : 'No',
       dataAnalytics: submission.dataAnalytics ?? ' ',
       dataAnalyticsScore: submission.dataAnalytics ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-data-analytics') : ' ',
-      energySource: submission.energySource ? submission.energySource.join() : ' ',
+      energySource: submission.energySource ? [submission.energySource].flat().join() : ' ',
       energySourceScore: submission.projectSubject === 'Robotics and innovation' ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-energy-source') : ' ',
-      agriculturalSector: submission.agriculturalSector ? submission.agriculturalSector.join() : ' ',
+      agriculturalSector: submission.agriculturalSector ? [submission.agriculturalSector].flat().join() : ' ',
       agriculturalSectorScore: submission.projectSubject === 'Robotics and innovation' ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-agricultural-sector') : ' ',
       isTechnology: submission.technology ? 'Yes' : 'No',
       technology: submission.technology ?? ' ',
