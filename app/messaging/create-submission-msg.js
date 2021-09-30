@@ -170,6 +170,8 @@ function getScoreChance (rating) {
 function getEmailDetails (submission, desirabilityScore, rpaEmail, isAgentEmail = false) {
   const email = isAgentEmail ? submission.agentsDetails.emailAddress : submission.farmerDetails.emailAddress
   const projectItems = Array.isArray(submission.projectItems) ? submission.projectItems.join() : submission.projectItems
+  const agriculturalSectors = Array.isArray(submission.agriculturalSector) ? submission.agriculturalSector.join() : submission.agriculturalSector
+  const energySources = Array.isArray(submission.energySource) ? submission.energySource.join() : submission.energySource
   return {
     notifyTemplate: emailConfig.notifyTemplate,
     emailAddress: rpaEmail || email,
@@ -203,9 +205,9 @@ function getEmailDetails (submission, desirabilityScore, rpaEmail, isAgentEmail 
       isDataAnalytics: submission.dataAnalytics ? 'Yes' : 'No',
       dataAnalytics: submission.dataAnalytics ?? ' ',
       dataAnalyticsScore: submission.dataAnalytics ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-data-analytics') : ' ',
-      energySource: submission.energySource ? submission.energySource.join() : ' ',
+      energySource: submission.energySource ? energySources : ' ',
       energySourceScore: submission.projectSubject === 'Robotics and innovation' ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-energy-source') : ' ',
-      agriculturalSector: submission.agriculturalSector ? submission.agriculturalSector.join() : ' ',
+      agriculturalSector: submission.agriculturalSector ? agriculturalSectors : ' ',
       agriculturalSectorScore: submission.projectSubject === 'Robotics and innovation' ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-agricultural-sector') : ' ',
       isTechnology: submission.technology ? 'Yes' : 'No',
       technology: submission.technology ?? ' ',
