@@ -20,7 +20,7 @@ function getProjectItems (projectItems, infrastructure, roboticEquipment) {
   } else if (roboticEquipment) {
     projectItems.push(roboticEquipment)
   }
-  return projectItems.join('|').substring(0, 60)
+  return projectItems.join('|')
 }
 
 function calculateBusinessSize (employees, turnover) {
@@ -68,7 +68,6 @@ function getSpreadsheetDetails (submission, desirabilityScore) {
   const today = new Date()
   const todayStr = today.toLocaleDateString('en-GB')
   const schemeName = submission.projectSubject === 'Slurry acidification' ? 'Slurry' : 'Robotics'
-  const isSlurry = schemeName === 'Slurry'
   const subScheme = `FTF-${schemeName}`
 
   return {
@@ -91,8 +90,8 @@ function getSpreadsheetDetails (submission, desirabilityScore) {
           generateRow(2, 'FA or OA', 'Outline Application'),
           generateRow(40, 'Scheme', 'Farming Transformation Fund'),
           generateRow(39, 'Sub scheme', 'FTF-Productivity'),
-          generateRow(43, 'Theme', isSlurry ? 'Slurry Acidification' : 'Robotics Innovation'),
-          generateRow(90, 'Project type', isSlurry ? 'Slurry Acidification' : 'Robotics Innovation'),
+          generateRow(43, 'Theme', submission.projectSubject),
+          generateRow(90, 'Project type', submission.projectSubject),
           generateRow(41, 'Owner', 'RD'),
           generateRow(341, 'Grant Launch Date', ''),
           generateRow(23, 'Status of applicant', submission.legalStatus),
