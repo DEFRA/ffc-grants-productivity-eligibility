@@ -6,8 +6,8 @@ const mockQuestionContent = {
       key: 'projectSubject',
       title: 'projectSubject title',
       answers: {
-        'projectSubject-A1': 'projectSubject answer 1',
-        'projectSubject-A2': 'Slurry acidification'
+        'projectSubject-A1': 'Robotics and Innovation',
+        'projectSubject-A2': 'Slurry Acidification'
       }
     }
   ],
@@ -22,7 +22,7 @@ const mockQuestionContent = {
   ]
 }
 const mockUserInput = {
-  projectSubject: 'Slurry acidification',
+  projectSubject: 'Slurry Acidification',
   projectImpacts: 'projectImpacts-A1'
 }
 

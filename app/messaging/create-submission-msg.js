@@ -1,5 +1,6 @@
 const emailConfig = require('../config/email')
 const spreadsheetConfig = require('../config/spreadsheet')
+const PROJECT_SUBJECT_SLURRY = 'Slurry Acidification'
 
 function getQuestionScoreBand (questions, questionKey) {
   return questions.find(question => question.key === questionKey).rating.band
@@ -20,7 +21,7 @@ function getProjectItems (projectItems, infrastructure, roboticEquipment) {
   } else if (roboticEquipment) {
     projectItems.push(roboticEquipment)
   }
-  return projectItems.join('|').substring(0, 60)
+  return projectItems.join('|')
 }
 
 function calculateBusinessSize (employees, turnover) {
@@ -67,7 +68,7 @@ function generateExcelFilename (scheme, projectName, businessName, referenceNumb
 function getSpreadsheetDetails (submission, desirabilityScore) {
   const today = new Date()
   const todayStr = today.toLocaleDateString('en-GB')
-  const schemeName = submission.projectSubject === 'Slurry acidification' ? 'Slurry' : 'Robotics'
+  const schemeName = submission.projectSubject === PROJECT_SUBJECT_SLURRY ? 'Slurry' : 'Robotics'
   const subScheme = `FTF-${schemeName}`
 
   return {
@@ -89,7 +90,7 @@ function getSpreadsheetDetails (submission, desirabilityScore) {
           generateRow(1, 'Field Name', 'Field Value', true),
           generateRow(2, 'FA or OA', 'Outline Application'),
           generateRow(40, 'Scheme', 'Farming Transformation Fund'),
-          generateRow(39, 'Sub scheme', subScheme),
+          generateRow(39, 'Sub scheme', 'FTF-Productivity'),
           generateRow(43, 'Theme', submission.projectSubject),
           generateRow(90, 'Project type', submission.projectSubject),
           generateRow(41, 'Owner', 'RD'),
@@ -179,8 +180,8 @@ function getEmailDetails (submission, desirabilityScore, rpaEmail, isAgentEmail 
       overallRating: desirabilityScore.desirability.overallRating.band,
       scoreChance: getScoreChance(desirabilityScore.desirability.overallRating.band),
       projectSubject: submission.projectSubject,
-      isSlurry: submission.projectSubject === 'Slurry acidification' ? 'Yes' : 'No',
-      isRobotics: submission.projectSubject === 'Robotics and innovation' ? 'Yes' : 'No',
+      isSlurry: submission.projectSubject === PROJECT_SUBJECT_SLURRY ? 'Yes' : 'No',
+      isRobotics: submission.projectSubject === PROJECT_SUBJECT_SLURRY ? 'No' : 'Yes',
       legalStatus: submission.legalStatus,
       location: `England ${submission.projectPostcode}`,
       planningPermission: submission.planningPermission,
@@ -188,7 +189,7 @@ function getEmailDetails (submission, desirabilityScore, rpaEmail, isAgentEmail 
       tenancy: submission.tenancy,
       isTenancyLength: submission.tenancyLength ? 'Yes' : 'No',
       tenancyLength: submission.tenancyLength ?? ' ',
-      projectItems: submission.projectItems ? [submission.projectItems].flat().join(', ') : '',
+      projectItems: submission.projectItems ? [submission.projectItems].flat().join('|') : '',
       acidificationInfrastructure: submission.acidificationInfrastructure ?? ' ',
       slurryApplication: submission.slurryApplication ?? ' ',
       projectCost: getCurrencyFormat(submission.projectCost),
@@ -201,14 +202,14 @@ function getEmailDetails (submission, desirabilityScore, rpaEmail, isAgentEmail 
       projectImpact: submission.projectImpact ?? ' ',
       isDataAnalytics: submission.dataAnalytics ? 'Yes' : 'No',
       dataAnalytics: submission.dataAnalytics ?? ' ',
-      dataAnalyticsScore: submission.dataAnalytics ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-data-analytics') : ' ',
-      energySource: submission.energySource ? [submission.energySource].flat().join(', ') : ' ',
-      energySourceScore: submission.projectSubject === 'Robotics and innovation' ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-energy-source') : ' ',
-      agriculturalSector: submission.agriculturalSector ? [submission.agriculturalSector].flat().join(', ') : ' ',
-      agriculturalSectorScore: submission.projectSubject === 'Robotics and innovation' ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-agricultural-sector') : ' ',
+      dataAnalyticsScore: submission.dataAnalytics && submission.projectSubject !== PROJECT_SUBJECT_SLURRY ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-data-analytics') : ' ',
+      energySource: submission.energySource ? [submission.energySource].flat().join('|') : ' ',
+      energySourceScore: submission.projectSubject !== PROJECT_SUBJECT_SLURRY ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-energy-source') : ' ',
+      agriculturalSector: submission.agriculturalSector ? [submission.agriculturalSector].flat().join('|') : ' ',
+      agriculturalSectorScore: submission.projectSubject !== PROJECT_SUBJECT_SLURRY ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-agricultural-sector') : ' ',
       isTechnology: submission.technology ? 'Yes' : 'No',
       technology: submission.technology ?? ' ',
-      technologyScore: submission.projectSubject === 'Robotics and innovation' ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-technology') : ' ',
+      technologyScore: submission.projectSubject !== PROJECT_SUBJECT_SLURRY ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-technology') : ' ',
       projectName: submission.businessDetails.projectName,
       businessName: submission.businessDetails.businessName,
       farmerName: submission.farmerDetails.firstName,
@@ -218,7 +219,7 @@ function getEmailDetails (submission, desirabilityScore, rpaEmail, isAgentEmail 
       agentName: submission.agentsDetails?.firstName ?? ' ',
       agentSurname: submission.agentsDetails?.lastName ?? ' ',
       agentEmail: submission.agentsDetails?.emailAddress ?? ' ',
-      projectImpactsScore: submission.projectSubject === 'Slurry acidification' ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'project-impacts') : ' ',
+      projectImpactsScore: submission.projectSubject === PROJECT_SUBJECT_SLURRY ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'project-impacts') : ' ',
       contactConsent: submission.consentOptional ? 'Yes' : 'No',
       scoreDate: new Date().toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })
 

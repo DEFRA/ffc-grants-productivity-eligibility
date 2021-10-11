@@ -6,15 +6,15 @@
   "desirability": {
     "questions": [
       {
-        "key": "projectSubject",
+        "key": "project-subject",
         "answers": [
           {
             "key": "projectSubject",
             "title": "The project will:",
             "input": [
               {
-                "key": "projectSubject-A4",
-                "value": "Increase irrigation"
+                "key": "projectSubject-A2",
+                "value": "Slurry Acidification"
               }
             ]
           }
@@ -26,10 +26,10 @@
         }
       },
       {
-        "key": "projectImpact",
+        "key": "project-impacts",
         "answers": [
           {
-            "key": "projectImpacta",
+            "key": "project-impacts-A1",
             "title": "How much land is currently irrigated per year?",
             "input": [
               {
@@ -39,7 +39,7 @@
             ]
           },
           {
-            "key": "projectImpactb",
+            "key": "project-impacts-A2",
             "title": "How much land will be irrigated after the project?",
             "input": [
               {

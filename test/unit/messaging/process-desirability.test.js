@@ -8,9 +8,9 @@ jest.mock('../../../app/config/spreadsheet', () => ({
 jest.mock('../../../app/services/app-insights')
 const processDesirability = require('../../../app/messaging/process-desirability')
 const cache = require('../../../app/cache')
-cache.removeDesirabilityScore = jest.fn(async (_correlationId) => {})
+cache.removeDesirabilityScore = jest.fn(async (_correlationId) => { return null })
 const appInsights = require('../../../app/services/app-insights')
-appInsights.logException = jest.fn((_err, _sessionId) => {})
+appInsights.logException = jest.fn((_err, _sessionId) => { return null })
 
 const projectDetailsReceiver = {
   completeMessage: jest.fn(async (_message) => { return null }),
@@ -26,7 +26,7 @@ describe('get processDesirability setup defined', () => {
   test('Should be called', () => {
     expect(processDesirability('', projectDetailsReceiver)).toBeDefined()
   })
-  test('Should be called with no error', async () => {
+  test('Should be called with body error', async () => {
     await expect(processDesirability('', projectDetailsReceiver)).resolves.not.toThrow()
     expect(cache.removeDesirabilityScore).toHaveBeenCalledTimes(1)
   })

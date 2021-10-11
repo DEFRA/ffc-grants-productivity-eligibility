@@ -8,9 +8,9 @@ jest.mock('../../../app/config/spreadsheet', () => ({
 jest.mock('../../../app/services/app-insights')
 const processSubmission = require('../../../app/messaging/process-submission')
 const cache = require('../../../app/cache')
-cache.getDesirabilityScore = jest.fn(async (_correlationId) => {})
+cache.getDesirabilityScore = jest.fn(async (_correlationId) => { return null })
 const appInsights = require('../../../app/services/app-insights')
-appInsights.logException = jest.fn((_err, _sessionId) => {})
+appInsights.logException = jest.fn((_err, _sessionId) => { return null })
 
 const projectDetailsReceiver = {
   completeMessage: jest.fn(async (_message) => { return null }),
@@ -26,7 +26,7 @@ describe('get processSubmission setup defined', () => {
   test('Should be called', () => {
     expect(processSubmission('', projectDetailsReceiver)).toBeDefined()
   })
-  test('Should be called with no error', async () => {
+  test('Should be called with body error', async () => {
     await expect(processSubmission('', projectDetailsReceiver)).resolves.not.toThrow()
     expect(cache.getDesirabilityScore).toHaveBeenCalledTimes(1)
   })
