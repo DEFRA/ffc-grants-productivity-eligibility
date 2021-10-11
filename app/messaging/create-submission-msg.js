@@ -3,6 +3,7 @@ const spreadsheetConfig = require('../config/spreadsheet')
 const PROJECT_SUBJECT_SLURRY = 'Slurry Acidification'
 
 function getQuestionScoreBand (questions, questionKey) {
+  console.log(questionKey, 'questionKey')
   return questions.find(question => question.key === questionKey).rating.band
 }
 
