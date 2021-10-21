@@ -70,7 +70,7 @@ function getSpreadsheetDetails (submission, desirabilityScore) {
   const todayStr = today.toLocaleDateString('en-GB')
   const schemeName = submission.projectSubject === PROJECT_SUBJECT_SLURRY ? 'Slurry' : 'Robotics'
   const subScheme = `FTF-${schemeName}`
-
+  const formerContractorDetails = submission.farmerDetails ?? submission.contractorsDetails
   return {
     filename: generateExcelFilename(
       subScheme.trim(),
@@ -125,17 +125,17 @@ function getSpreadsheetDetails (submission, desirabilityScore) {
           generateRow(20, 'Business size', calculateBusinessSize(submission.businessDetails.numberEmployees, submission.businessDetails.businessTurnover)),
           generateRow(44, 'Project Items', getProjectItems(submission.projectItems, submission.acidificationInfrastructure, submission.roboticEquipment)),
           generateRow(91, 'Are you an AGENT applying on behalf of your customer', submission.applying === 'Agent' ? 'Yes' : 'No'),
-          generateRow(5, 'Surname', submission.farmerDetails.lastName),
-          generateRow(6, 'Forename', submission.farmerDetails.firstName),
-          generateRow(8, 'Address line 1', submission.farmerDetails.address1),
-          generateRow(9, 'Address line 2', submission.farmerDetails.address2),
+          generateRow(5, 'Surname', formerContractorDetails.lastName),
+          generateRow(6, 'Forename', formerContractorDetails.firstName),
+          generateRow(8, 'Address line 1', formerContractorDetails.address1),
+          generateRow(9, 'Address line 2', formerContractorDetails.address2),
           generateRow(10, 'Address line 3', ''),
-          generateRow(11, 'Address line 4 (town)', submission.farmerDetails.town),
-          generateRow(12, 'Address line 5 (county)', submission.farmerDetails.county),
-          generateRow(13, 'Postcode (use capitals)', submission.farmerDetails.postcode),
-          generateRow(16, 'Landline number', submission.farmerDetails.landlineNumber ?? ''),
-          generateRow(17, 'Mobile number', submission.farmerDetails.mobileNumber ?? ''),
-          generateRow(18, 'Email', submission.farmerDetails.emailAddress),
+          generateRow(11, 'Address line 4 (town)', formerContractorDetails.town),
+          generateRow(12, 'Address line 5 (county)', formerContractorDetails.county),
+          generateRow(13, 'Postcode (use capitals)', formerContractorDetails.postcode),
+          generateRow(16, 'Landline number', formerContractorDetails.landlineNumber ?? ''),
+          generateRow(17, 'Mobile number', formerContractorDetails.mobileNumber ?? ''),
+          generateRow(18, 'Email', formerContractorDetails.emailAddress),
           generateRow(89, 'Customer Marketing Indicator', submission.consentOptional ? 'Yes' : 'No'),
           generateRow(368, 'Date ready for QC or decision', todayStr),
           generateRow(369, 'Eligibility Reference No.', submission.confirmationId),
@@ -169,13 +169,14 @@ function getScoreChance (rating) {
 }
 
 function getEmailDetails (submission, desirabilityScore, rpaEmail, isAgentEmail = false) {
-  const email = isAgentEmail ? submission.agentsDetails.emailAddress : submission.farmerDetails.emailAddress
+  const formerContractorDetails = submission.farmerDetails ?? submission.contractorsDetails
+  const email = isAgentEmail ? submission.agentsDetails.emailAddress : formerContractorDetails.emailAddress
   return {
     notifyTemplate: emailConfig.notifyTemplate,
     emailAddress: rpaEmail || email,
     details: {
-      firstName: isAgentEmail ? submission.agentsDetails.firstName : submission.farmerDetails.firstName,
-      lastName: isAgentEmail ? submission.agentsDetails.lastName : submission.farmerDetails.lastName,
+      firstName: isAgentEmail ? submission.agentsDetails.firstName : formerContractorDetails.firstName,
+      lastName: isAgentEmail ? submission.agentsDetails.lastName : formerContractorDetails.lastName,
       referenceNumber: submission.confirmationId,
       overallRating: desirabilityScore.desirability.overallRating.band,
       scoreChance: getScoreChance(desirabilityScore.desirability.overallRating.band),
@@ -212,9 +213,9 @@ function getEmailDetails (submission, desirabilityScore, rpaEmail, isAgentEmail 
       technologyScore: submission.projectSubject !== PROJECT_SUBJECT_SLURRY ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-technology') : ' ',
       projectName: submission.businessDetails.projectName,
       businessName: submission.businessDetails.businessName,
-      farmerName: submission.farmerDetails.firstName,
-      farmerSurname: submission.farmerDetails.lastName,
-      farmerEmail: submission.farmerDetails.emailAddress,
+      farmerName: formerContractorDetails.firstName,
+      farmerSurname: formerContractorDetails.lastName,
+      farmerEmail: formerContractorDetails.emailAddress,
       isAgent: submission.agentsDetails ? 'Yes' : 'No',
       agentName: submission.agentsDetails?.firstName ?? ' ',
       agentSurname: submission.agentsDetails?.lastName ?? ' ',
