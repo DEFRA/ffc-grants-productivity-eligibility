@@ -213,6 +213,8 @@ function getEmailDetails (submission, desirabilityScore, rpaEmail, isAgentEmail 
       technologyScore: submission.projectSubject !== PROJECT_SUBJECT_SLURRY ? getQuestionScoreBand(desirabilityScore.desirability.questions, 'robotics-technology') : ' ',
       projectName: submission.businessDetails.projectName,
       businessName: submission.businessDetails.businessName,
+      isFarmer: submission.farmerDetails ? 'Yes' : 'No',
+      isContractor: submission.contractorsDetails ? 'Yes' : 'No',
       farmerName: formerContractorDetails.firstName,
       farmerSurname: formerContractorDetails.lastName,
       farmerEmail: formerContractorDetails.emailAddress,
