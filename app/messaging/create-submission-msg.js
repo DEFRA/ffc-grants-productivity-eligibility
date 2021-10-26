@@ -214,6 +214,7 @@ function getEmailDetails (submission, desirabilityScore, rpaEmail, isAgentEmail 
       projectName: submission.businessDetails.projectName,
       businessName: submission.businessDetails.businessName,
       isFarmer: submission.farmerDetails ? 'Yes' : 'No',
+      isContractor: submission.contractorsDetails ? 'Yes' : 'No',
       farmerName: formerContractorDetails.firstName,
       farmerSurname: formerContractorDetails.lastName,
       farmerEmail: formerContractorDetails.emailAddress,
