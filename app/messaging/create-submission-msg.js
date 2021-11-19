@@ -70,7 +70,7 @@ function getSpreadsheetDetails (submission, desirabilityScore) {
   const todayStr = today.toLocaleDateString('en-GB')
   const schemeName = submission.projectSubject === PROJECT_SUBJECT_SLURRY ? 'Slurry' : 'Robotics'
   const subScheme = `FTF-${schemeName}`
-  const formerContractorDetails = submission.farmerDetails ?? submission.contractorsDetails
+  const farmerContractorDetails = submission.farmerDetails ?? submission.contractorsDetails
   return {
     filename: generateExcelFilename(
       subScheme.trim(),
@@ -96,9 +96,9 @@ function getSpreadsheetDetails (submission, desirabilityScore) {
           generateRow(41, 'Owner', 'RD'),
           generateRow(341, 'Grant Launch Date', ''),
           generateRow(23, 'Status of applicant', submission.legalStatus),
-          generateRow(45, 'Location of project (postcode)', formerContractorDetails.projectPostcode ?? formerContractorDetails.postcode),
+          generateRow(45, 'Location of project (postcode)', farmerContractorDetails.projectPostcode ?? farmerContractorDetails.postcode),
           generateRow(376, 'Project Started', submission.projectStart),
-          generateRow(342, 'Land owned by Farm', submission.tenancy),
+          generateRow(342, 'Land owned by Farm', submission.tenancy ?? ''),
           generateRow(343, 'Tenancy for next 5 years', submission.tenancyLength ?? ''),
           generateRow(55, 'Total project expenditure', String(submission.projectCost)),
           generateRow(57, 'Grant rate', '40'),
@@ -125,17 +125,17 @@ function getSpreadsheetDetails (submission, desirabilityScore) {
           generateRow(20, 'Business size', calculateBusinessSize(submission.businessDetails.numberEmployees, submission.businessDetails.businessTurnover)),
           generateRow(44, 'Project Items', getProjectItems(submission.projectItems, submission.acidificationInfrastructure, submission.roboticEquipment)),
           generateRow(91, 'Are you an AGENT applying on behalf of your customer', submission.applying === 'Agent' ? 'Yes' : 'No'),
-          generateRow(5, 'Surname', formerContractorDetails.lastName),
-          generateRow(6, 'Forename', formerContractorDetails.firstName),
-          generateRow(8, 'Address line 1', formerContractorDetails.address1),
-          generateRow(9, 'Address line 2', formerContractorDetails.address2),
+          generateRow(5, 'Surname', farmerContractorDetails.lastName),
+          generateRow(6, 'Forename', farmerContractorDetails.firstName),
+          generateRow(8, 'Address line 1', farmerContractorDetails.address1),
+          generateRow(9, 'Address line 2', farmerContractorDetails.address2),
           generateRow(10, 'Address line 3', ''),
-          generateRow(11, 'Address line 4 (town)', formerContractorDetails.town),
-          generateRow(12, 'Address line 5 (county)', formerContractorDetails.county),
-          generateRow(13, 'Postcode (use capitals)', formerContractorDetails.postcode),
-          generateRow(16, 'Landline number', formerContractorDetails.landlineNumber ?? ''),
-          generateRow(17, 'Mobile number', formerContractorDetails.mobileNumber ?? ''),
-          generateRow(18, 'Email', formerContractorDetails.emailAddress),
+          generateRow(11, 'Address line 4 (town)', farmerContractorDetails.town),
+          generateRow(12, 'Address line 5 (county)', farmerContractorDetails.county),
+          generateRow(13, 'Postcode (use capitals)', farmerContractorDetails.postcode),
+          generateRow(16, 'Landline number', farmerContractorDetails.landlineNumber ?? ''),
+          generateRow(17, 'Mobile number', farmerContractorDetails.mobileNumber ?? ''),
+          generateRow(18, 'Email', farmerContractorDetails.emailAddress),
           generateRow(89, 'Customer Marketing Indicator', submission.consentOptional ? 'Yes' : 'No'),
           generateRow(368, 'Date ready for QC or decision', todayStr),
           generateRow(369, 'Eligibility Reference No.', submission.confirmationId),
@@ -169,14 +169,14 @@ function getScoreChance (rating) {
 }
 
 function getEmailDetails (submission, desirabilityScore, rpaEmail, isAgentEmail = false) {
-  const formerContractorDetails = submission.farmerDetails ?? submission.contractorsDetails
-  const email = isAgentEmail ? submission.agentsDetails.emailAddress : formerContractorDetails.emailAddress
+  const farmerContractorDetails = submission.farmerDetails ?? submission.contractorsDetails
+  const email = isAgentEmail ? submission.agentsDetails.emailAddress : farmerContractorDetails.emailAddress
   return {
     notifyTemplate: emailConfig.notifyTemplate,
     emailAddress: rpaEmail || email,
     details: {
-      firstName: isAgentEmail ? submission.agentsDetails.firstName : formerContractorDetails.firstName,
-      lastName: isAgentEmail ? submission.agentsDetails.lastName : formerContractorDetails.lastName,
+      firstName: isAgentEmail ? submission.agentsDetails.firstName : farmerContractorDetails.firstName,
+      lastName: isAgentEmail ? submission.agentsDetails.lastName : farmerContractorDetails.lastName,
       referenceNumber: submission.confirmationId,
       overallRating: desirabilityScore.desirability.overallRating.band,
       scoreChance: getScoreChance(desirabilityScore.desirability.overallRating.band),
@@ -184,13 +184,13 @@ function getEmailDetails (submission, desirabilityScore, rpaEmail, isAgentEmail 
       isSlurry: submission.projectSubject === PROJECT_SUBJECT_SLURRY ? 'Yes' : 'No',
       isRobotics: submission.projectSubject === PROJECT_SUBJECT_SLURRY ? 'No' : 'Yes',
       legalStatus: submission.legalStatus,
-      location: `England ${formerContractorDetails.projectPostcode ?? formerContractorDetails.postcode}`,
+      location: `England ${farmerContractorDetails.projectPostcode ?? farmerContractorDetails.postcode}`,
       planningPermission: submission.planningPermission,
       projectStart: submission.projectStart,
       tenancy: submission.tenancy,
       isTenancyLength: submission.tenancyLength ? 'Yes' : 'No',
       tenancyLength: submission.tenancyLength ?? ' ',
-      projectItems: submission.projectItems ? [submission.projectItems].flat().join('|') : '',
+      projectItems: submission.projectItems ? [submission.projectItems].flat().join('|') : ' ',
       acidificationInfrastructure: submission.acidificationInfrastructure ?? ' ',
       slurryApplication: submission.slurryApplication ?? ' ',
       projectCost: getCurrencyFormat(submission.projectCost),
@@ -215,9 +215,9 @@ function getEmailDetails (submission, desirabilityScore, rpaEmail, isAgentEmail 
       businessName: submission.businessDetails.businessName,
       isFarmer: submission.farmerDetails ? 'Yes' : 'No',
       isContractor: submission.contractorsDetails ? 'Yes' : 'No',
-      farmerName: formerContractorDetails.firstName,
-      farmerSurname: formerContractorDetails.lastName,
-      farmerEmail: formerContractorDetails.emailAddress,
+      farmerName: farmerContractorDetails.firstName,
+      farmerSurname: farmerContractorDetails.lastName,
+      farmerEmail: farmerContractorDetails.emailAddress,
       isAgent: submission.agentsDetails ? 'Yes' : 'No',
       agentName: submission.agentsDetails?.firstName ?? ' ',
       agentSurname: submission.agentsDetails?.lastName ?? ' ',
