@@ -16,8 +16,8 @@ function generateRow (rowNumber, name, value, bold = false) {
 
 function getProjectItems (projectItems, infrastructure, roboticEquipment, roboticsProjectItemEquipments) {
   projectItems = [projectItems].flat()
-  if (infrastructure === 'acidification infrastructure') {
-    projectItems.push(infrastructure)
+  if (infrastructure === 'Acidification infrastructure') {
+    projectItems.push(infrastructure.toLowerCase())
   } else {
     if (roboticsProjectItemEquipments) {
       roboticsProjectItemEquipments = [roboticsProjectItemEquipments].flat()
