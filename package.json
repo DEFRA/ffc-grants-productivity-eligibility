@@ -19,7 +19,7 @@
     "@hapi/hapi": "^20.2.1",
     "applicationinsights": "^1.8.10",
     "ffc-messaging": "^2.3.3",
-    "ffc-protective-monitoring": "^1.0.1",
+    "ffc-protective-monitoring": "^1.0.3",
     "joi": "^17.4.3"
   },
   "devDependencies": {
